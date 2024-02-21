@@ -1,0 +1,31 @@
+{
+  "name": "master-keys",
+  "version": "0.1.0",
+  "description": "Master Keys",
+  "main": "dist/master-keys.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leolizc/master-keys.git"
+  },
+  "keywords": [
+    "web-components",
+    "typescript",
+    "react",
+    "vue",
+    "javascript",
+    "keyboard",
+    "shortcut",
+    "keypress",
+    "ninja-keys"
+  ],
+  "author": "LeoLizc <ldlizcano@uninorte.edu.co> (https://portfolio.leolizc.tech)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leolizc/master-keys/issues"
+  },
+  "homepage": "https://github.com/leolizc/master-keys#readme"
+}
