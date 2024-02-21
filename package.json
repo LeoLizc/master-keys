@@ -1,6 +1,6 @@
 {
   "name": "master-keys",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Master Keys",
   "main": "dist/master-keys.js",
   "type": "module",
@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/leolizc/master-keys/issues"
   },
-  "homepage": "https://github.com/leolizc/master-keys#readme"
+  "homepage": "https://github.com/leolizc/master-keys#readme",
+  "devDependencies": {
+    "@s-ui/mono": "^2.45.0"
+  }
 }
