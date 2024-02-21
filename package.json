@@ -29,6 +29,8 @@
   },
   "homepage": "https://github.com/leolizc/master-keys#readme",
   "devDependencies": {
-    "@s-ui/mono": "^2.45.0"
+    "@s-ui/mono": "^2.45.0",
+    "clean-publish": "^4.2.0",
+    "tsc": "^2.0.4"
   }
 }
