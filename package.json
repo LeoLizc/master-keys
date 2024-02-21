@@ -6,8 +6,11 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "build:watch": "tsc --watch",
     "clean": "rimraf dist",
-    "build:clean": "npm run clean && npm run build"
+    "build:clean": "npm run clean && npm run build",
+    "serve": "live-server --entry-file=dev/index.html --watch=dev,dist",
+    "dev": "npm run build:clean -- --watch && concurrently -k -r  \"npm run serve\" \"npm run build:watch\""
   },
   "repository": {
     "type": "git",
@@ -33,7 +36,14 @@
   "devDependencies": {
     "@s-ui/mono": "^2.45.0",
     "clean-publish": "^4.2.0",
+    "concurrently": "^8.2.2",
+    "live-server": "^1.2.2",
     "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
+  },
+  "clean-publish": {
+    "files": [
+      "dist"
+    ]
   }
 }

@@ -31,3 +31,5 @@ export class MasterKeys extends HTMLElement {
     `;
   }
 }
+
+customElements.define('master-keys', MasterKeys);
