@@ -20,6 +20,8 @@ masterKeyStyle.replaceSync(`
     background-color: #fff;
     border-radius: 1cqw;
     box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+
+    color: #333;
   }
 `);
 

@@ -15,7 +15,9 @@ export class MasterKeys extends HTMLElement {
 
   render() {
     this.shadowRoot!.innerHTML = `
-      <div class="modal"></div>
+      <div class="modal">
+        <slot></slot>
+      </div>
     `;
   }
 }
