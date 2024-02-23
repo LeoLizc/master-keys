@@ -36,7 +36,28 @@ h6 {
 p {
   text-wrap: pretty;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid green;
+  // -webkit-text-fill-color: green;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill {
+  background-color: #FAFFBD !important;
+color: #2a2a2a !important;
+}
 `);
+// TODO: Arreglar estilos en autocompletado
 
 export const masterKeyStyle = createCSS(`
   :host {
@@ -124,6 +145,7 @@ header .search {
 
   color: rgb(80, 84, 90);
 }
+
 
 header {
   border-bottom: 1px solid rgba(177, 176, 176, 0.222)
