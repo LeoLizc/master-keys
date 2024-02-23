@@ -1,5 +1,44 @@
-const masterKeyStyle = new CSSStyleSheet();
-masterKeyStyle.replaceSync(`
+import { createCSS } from "../utils.js";
+
+export const resetCss = createCSS(`
+* {
+  min-height: 0;
+  min-width: 0;
+  font: inherit;
+
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+video,
+svg {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+`);
+
+export const masterKeyStyle = createCSS(`
   :host {
     position: fixed;
     top: 0;
@@ -26,6 +65,4 @@ masterKeyStyle.replaceSync(`
     color: #333;
 
   }
-`);
-
-export { masterKeyStyle };
+`, { extends: resetCss});
