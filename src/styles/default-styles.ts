@@ -1,4 +1,4 @@
-import { createCSS } from "../utils.js";
+import { createCSS } from '../utils.js';
 
 export const resetCss = createCSS(`
 * {
@@ -65,4 +65,4 @@ export const masterKeyStyle = createCSS(`
     color: #333;
 
   }
-`, { extends: resetCss});
+`, { extends: resetCss });

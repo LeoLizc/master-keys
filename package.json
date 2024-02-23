@@ -35,8 +35,14 @@
   "homepage": "https://github.com/leolizc/master-keys#readme",
   "devDependencies": {
     "@s-ui/mono": "^2.45.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
     "clean-publish": "^4.2.0",
     "concurrently": "^8.2.2",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
     "live-server": "^1.2.2",
     "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
