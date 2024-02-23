@@ -66,3 +66,67 @@ export const masterKeyStyle = createCSS(`
 
   }
 `, { extends: resetCss });
+
+export const masterHeaderStyle = createCSS(
+  `nav.breadcrumbs {
+  /* display: flex;
+  flex-wrap: wrap; */
+  /* justify-content: left;
+  align-items: center; */
+  border-radius: 0.5rem;
+  color: rgb(255, 255, 255);
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+    gap: 0.4rem;
+  }
+}
+
+nav .breadcrumb {
+  display: inline-block;
+  width: fit-content;
+  padding: .1rem 0.5rem;
+
+  font-size: 0.8rem;
+  border-radius: 0.3rem;
+  background-color: rgba(177, 176, 176, 0.222);
+
+
+  a {
+    text-decoration: none;
+    color: rgb(107, 111, 118);
+  }
+}
+
+header .search {
+  margin: .6rem 0;
+  margin-bottom: 1rem;
+}
+
+.search input {
+  width: 100%;
+  padding: 0.5rem;
+
+  border-radius: 0.5rem;
+  border: none;
+  background: transparent;
+
+  font-size: 1.3rem;
+  font-weight: 350;
+}
+
+.search input:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.4);
+
+  color: rgb(80, 84, 90);
+}
+
+header {
+  border-bottom: 1px solid rgba(177, 176, 176, 0.222)
+}`,
+  { extends: resetCss },
+);
