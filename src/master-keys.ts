@@ -23,3 +23,8 @@ export class MasterKeys extends HTMLElement {
 }
 
 customElements.define('master-keys', MasterKeys);
+declare global {
+  interface HTMLElementTagNameMap {
+    'master-keys': MasterKeys;
+  }
+}
