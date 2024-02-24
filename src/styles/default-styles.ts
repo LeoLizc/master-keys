@@ -56,6 +56,10 @@ input:-webkit-autofill {
   background-color: #FAFFBD !important;
 color: #2a2a2a !important;
 }
+
+ul {
+  list-style: none;
+}
 `);
 // TODO: Arreglar estilos en autocompletado
 
