@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-plusplus */
 type CssProps = {
   extends?: CSSStyleSheet;
@@ -16,4 +17,28 @@ export function createCSS(content: string, props?: CssProps): CSSStyleSheet {
   }
 
   return style;
+}
+
+export interface Renderable {
+  render(): void;
+}
+
+export function observe<T extends Renderable, A>(
+  target : ClassAccessorDecoratorTarget<T, A>,
+  context: DecoratorContext,
+): ClassAccessorDecoratorResult<T, A> | void {
+  const { kind } = context;
+  if (kind !== 'accessor') {
+    return;
+  }
+
+  const { set } = target;
+
+  return {
+    ...target,
+    set(value: A) {
+      set.call(this, value);
+      this.render();
+    },
+  };
 }

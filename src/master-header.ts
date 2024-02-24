@@ -1,16 +1,11 @@
 import { masterHeaderStyle } from './styles/default-styles.js';
+import { Renderable, observe } from './utils.js';
 
-export class MasterKeyHeader extends HTMLElement {
-  #placeholder:string = 'Type a command or search...';
+export class MasterKeyHeader extends HTMLElement implements Renderable {
+  #a_placeholder:string;
 
-  get placeholder() {
-    return this.#placeholder;
-  }
-
-  set placeholder(value:string) {
-    this.render();
-    this.#placeholder = value;
-  }
+  @observe
+  accessor placeholder = 'Type a command or search...';
 
   constructor(
     placeholder:string = 'Type a command or search...',
@@ -18,7 +13,7 @@ export class MasterKeyHeader extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.shadowRoot!.adoptedStyleSheets = [masterHeaderStyle];
-    this.#placeholder = placeholder;
+    this.#a_placeholder = placeholder;
   }
 
   connectedCallback() {
@@ -42,7 +37,7 @@ export class MasterKeyHeader extends HTMLElement {
         </ul>
       </nav>
       <div class="search">
-        <input name="search" type="text" placeholder="Search..." />
+        <input name="search" type="text" placeholder="${this.placeholder}" />
       </div>
     </header>
     `;
