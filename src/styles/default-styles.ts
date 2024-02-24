@@ -96,6 +96,7 @@ export const masterHeaderStyle = createCSS(
   align-items: center; */
   border-radius: 0.5rem;
   color: rgb(255, 255, 255);
+  margin-bottom: .6rem;
 
   ul {
     display: flex;
@@ -123,7 +124,7 @@ nav .breadcrumb {
 }
 
 header .search {
-  margin: .6rem 0;
+  margin: 0;
   margin-bottom: 1rem;
 }
 
