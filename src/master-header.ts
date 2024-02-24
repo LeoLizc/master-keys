@@ -7,6 +7,9 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
   @observe
   accessor placeholder = 'Type a command or search...';
 
+  @observe
+  accessor 'hide-breadcrumbs' = false;
+
   constructor(
     placeholder:string = 'Type a command or search...',
   ) {
@@ -26,7 +29,10 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
 
     this.shadowRoot!.innerHTML = `
     <header>
-      <nav class="breadcrumbs">
+      ${
+  this['hide-breadcrumbs']
+    ? ''
+    : `<nav class="breadcrumbs">
         <ul>
           <li class="breadcrumb">
             <a href="#">Home</a>
@@ -38,7 +44,7 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
             <a href="#">Contact</a>
           </li>
         </ul>
-      </nav>
+      </nav>`}
       <div class="search">
         <input name="search" type="text" placeholder="${this.placeholder}" />
       </div>
