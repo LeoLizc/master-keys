@@ -2,7 +2,7 @@ import { masterHeaderStyle } from './styles/default-styles.js';
 import { Renderable, observe } from './utils.js';
 
 export class MasterKeyHeader extends HTMLElement implements Renderable {
-  #a_placeholder:string;
+  #rendered = false;
 
   @observe
   accessor placeholder = 'Type a command or search...';
@@ -13,14 +13,17 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
     super();
     this.attachShadow({ mode: 'open' });
     this.shadowRoot!.adoptedStyleSheets = [masterHeaderStyle];
-    this.#a_placeholder = placeholder;
+    this.placeholder = placeholder;
   }
 
   connectedCallback() {
+    this.#rendered = true;
     this.render();
   }
 
   render() {
+    if (!this.#rendered) return;
+
     this.shadowRoot!.innerHTML = `
     <header>
       <nav class="breadcrumbs">
