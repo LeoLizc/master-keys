@@ -1,5 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-plusplus */
+import type { Renderable } from './util';
+
 type CssProps = {
   extends?: CSSStyleSheet;
 };
@@ -17,10 +19,6 @@ export function createCSS(content: string, props?: CssProps): CSSStyleSheet {
   }
 
   return style;
-}
-
-export interface Renderable {
-  render(): void;
 }
 
 export function observe<T extends Renderable, A>(

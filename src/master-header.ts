@@ -1,5 +1,6 @@
 import { masterHeaderStyle } from './styles/default-styles.js';
-import { Renderable, observe } from './utils.js';
+import { observe } from './utils.js';
+import { Renderable } from './util.js';
 
 export class MasterKeyHeader extends HTMLElement implements Renderable {
   #rendered = false;

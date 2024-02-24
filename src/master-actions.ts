@@ -1,4 +1,4 @@
-import { Renderable } from './utils';
+import { Renderable } from './util.d';
 import { masterActionsStyle } from './styles/default-styles.js';
 
 export class MasterActions extends HTMLElement implements Renderable {
