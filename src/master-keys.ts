@@ -6,6 +6,7 @@ export class MasterKeys extends HTMLElement {
 
   static #heareableAttr: Record<string, keyof MasterKeys | 'no-render'> = {
     placeholder: 'header',
+    hideBreadcrumbs: 'header',
   };
 
   static get observedAttributes() {
