@@ -4,6 +4,15 @@ import { MasterKeyHeader } from './master-header.js';
 export class MasterKeys extends HTMLElement {
   header: MasterKeyHeader;
 
+  static #heareableAttr: Record<string, keyof MasterKeys> = {
+    placeholder: 'header',
+  };
+
+  static get observedAttributes() {
+    const hear = this.#heareableAttr;
+    return Object.keys(hear);
+  }
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -17,7 +26,12 @@ export class MasterKeys extends HTMLElement {
 
   attributeChangedCallback(name:string, oldVal:string, newVal:string) {
     if (oldVal !== newVal) {
-      this.render();
+      const target = this[MasterKeys.#heareableAttr[name]];
+      if (target instanceof HTMLElement) {
+        (target as any)[name] = newVal;
+      } else {
+        this.render();
+      }
     }
   }
 
