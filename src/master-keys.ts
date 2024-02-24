@@ -1,8 +1,10 @@
 import { masterKeyStyle } from './styles/default-styles.js';
 import { MasterKeyHeader } from './master-header.js';
+import { MasterActions } from './master-actions.js';
 
 export class MasterKeys extends HTMLElement {
   header: MasterKeyHeader;
+  mksActions: MasterActions;
 
   static #heareableAttr: Record<string, keyof MasterKeys | 'no-render'> = {
     placeholder: 'header',
@@ -19,6 +21,7 @@ export class MasterKeys extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot!.adoptedStyleSheets = [masterKeyStyle];
     this.header = new MasterKeyHeader();
+    this.mksActions = new MasterActions();
   }
 
   connectedCallback() {
@@ -45,6 +48,7 @@ export class MasterKeys extends HTMLElement {
       </div>
     `;
     this.shadowRoot!.children[0]!.appendChild(this.header);
+    this.shadowRoot!.children[0]!.appendChild(this.mksActions);
 
     const slot = document.createElement('slot');
     this.shadowRoot!.children[0]!.appendChild(slot);

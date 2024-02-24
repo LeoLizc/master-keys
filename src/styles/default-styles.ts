@@ -78,11 +78,13 @@ export const masterKeyStyle = createCSS(`
     box-sizing: border-box;
     max-width: 640px;
     min-width: 0px;
-    height: 285px;
+    min-height: 285px;
     margin: auto;
     padding: 1em;
     top: 20%;
+    max-height: 70%;
     
+    overflow: auto;
     background-color: #fff;
     border-radius: 1cqw;
     box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
@@ -157,3 +159,57 @@ header {
 }`,
   { extends: resetCss },
 );
+
+export const masterActionsStyle = createCSS(`
+:host li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  padding-block: .8rem;
+  /* border-bottom: 1px solid rgb(23, 23, 23); */
+  color: #6b6f76;
+  font-size: .95rem;
+}
+
+:host li:hover {
+  background-color: rgb(236 238 244);
+}
+
+.action-name {
+  text-align: start;
+  flex-grow: 2;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+div.action-icon {
+  padding-inline-end: 1rem;
+  flex-shrink: 0;
+}
+
+img.action-icon {
+  max-width: 1.3rem;
+  max-height: 1.3rem;
+}
+
+kbd {
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #ccc, 0 2px 0 #fff inset;
+  color: #333;
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 0 .1em;
+  padding: 2px 4px;
+  white-space: nowrap;
+}
+
+.action-hotkey {
+  margin-inline-start: 1rem;
+  flex-shrink: 0;
+}
+`, { extends: resetCss });
