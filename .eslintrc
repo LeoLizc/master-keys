@@ -15,6 +15,13 @@
       {
         "argsIgnorePattern": "^_"
       }
+    ],
+    "@typescript-eslint/lines-between-class-members": [
+      "error",
+      "always",
+      {
+        "exceptAfterSingleLine": true
+      }
     ]
   }
 }
