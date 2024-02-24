@@ -4,7 +4,7 @@ import { MasterKeyHeader } from './master-header.js';
 export class MasterKeys extends HTMLElement {
   header: MasterKeyHeader;
 
-  static #heareableAttr: Record<string, keyof MasterKeys> = {
+  static #heareableAttr: Record<string, keyof MasterKeys | 'no-render'> = {
     placeholder: 'header',
   };
 
@@ -26,7 +26,10 @@ export class MasterKeys extends HTMLElement {
 
   attributeChangedCallback(name:string, oldVal:string, newVal:string) {
     if (oldVal !== newVal) {
-      const target = this[MasterKeys.#heareableAttr[name]];
+      const targetKey = MasterKeys.#heareableAttr[name];
+      if (targetKey === 'no-render') return;
+
+      const target = this[targetKey];
       if (target instanceof HTMLElement) {
         (target as any)[name] = newVal;
       } else {
