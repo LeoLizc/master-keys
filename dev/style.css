@@ -83,7 +83,26 @@ kbd svg {
   stroke-width: 1.8;
 }
 
+kbd:hover {
+  animation: press-key 1s ease infinite;
+}
+
 .footer-help {
   display: flex;
   margin-right: .5rem;
+}
+
+@keyframes press-key {
+  0% {
+    box-shadow: rgb(204, 204, 204) 0px 2px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
+  }
+
+  50% {
+    box-shadow: rgb(204, 204, 204) 0px 0px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
+    transform: translateY(1px);
+  }
+
+  100% {
+    box-shadow: rgb(204, 204, 204) 0px 2px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
+  }
 }
