@@ -81,6 +81,7 @@ export const masterKeyStyle = createCSS(`
     min-height: 285px;
     margin: auto;
     padding: 1em;
+    padding-bottom: 0;
     top: 20%;
     max-height: 70%;
     
@@ -91,6 +92,14 @@ export const masterKeyStyle = createCSS(`
 
     color: #333;
 
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    // justify-content: space-between;
+  }
+
+  .modal *:first-child,.modal *:last-child {
+    flex-shrink: 0;
   }
 `, { extends: resetCss });
 
@@ -159,6 +168,10 @@ header {
 );
 
 export const masterActionsStyle = createCSS(`
+:host {
+  overflow: auto;
+}
+
 :host li {
   display: flex;
   align-items: center;
