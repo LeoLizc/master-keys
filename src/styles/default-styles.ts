@@ -226,3 +226,65 @@ kbd {
   flex-shrink: 0;
 }
 `, { extends: resetCss });
+
+export const masterFooterStyle = createCSS(`
+footer {
+  padding: .5rem 1rem;
+  background-color: rgb(242 242 242 / 90%);
+
+  display: flex;
+  align-items: center;
+  /* background-color: red; */
+}
+
+kbd {
+  background-color: rgb(247, 247, 247);
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 3px;
+  box-shadow: rgb(204, 204, 204) 0px 1px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
+  color: rgb(51, 51, 51);
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 0px 0.25rem;
+  padding: 1px 4px;
+  white-space: nowrap;
+  /* padding: .2rem .5rem; */
+  font-size: .9rem;
+  font-weight: 500;
+  line-height: 1.2;
+  height: fit-content;
+}
+
+kbd svg {
+  width: 1rem;
+  height: 1rem;
+  stroke-width: 1.8;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  kbd:hover {
+    animation: press-key 1s ease infinite;
+  }
+}
+
+.footer-help {
+  display: flex;
+  margin-right: .5rem;
+}
+
+@keyframes press-key {
+  0% {
+    box-shadow: rgb(204, 204, 204) 0px 2px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
+  }
+
+  50% {
+    box-shadow: rgb(204, 204, 204) 0px 0px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
+    transform: translateY(1px);
+  }
+
+  100% {
+    box-shadow: rgb(204, 204, 204) 0px 2px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
+  }
+}
+`, { extends: resetCss });
