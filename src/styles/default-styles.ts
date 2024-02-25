@@ -96,21 +96,14 @@ export const masterKeyStyle = createCSS(`
 
 export const masterHeaderStyle = createCSS(
   `nav.breadcrumbs {
-  /* display: flex;
-  flex-wrap: wrap; */
-  /* justify-content: left;
-  align-items: center; */
-  border-radius: 0.5rem;
-  color: rgb(255, 255, 255);
   margin-bottom: .6rem;
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    align-items: center;
-    gap: 0.4rem;
-  }
+  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  align-items: center;
+  gap: 0.4rem;
+  
 }
 
 nav .breadcrumb {
@@ -120,14 +113,19 @@ nav .breadcrumb {
 
   font-size: 0.8rem;
   border-radius: 0.3rem;
-  background-color: rgba(177, 176, 176, 0.222);
-
-
-  a {
-    text-decoration: none;
-    color: rgb(107, 111, 118);
-  }
+  background-color: rgba(177, 176, 176, 0.3);
+  
+  color: rgb(99 103 110);
+  border: none;
+  cursor: pointer;
 }
+
+// nav .breadcrumb:hover {
+//   background-color: rgba(177, 176, 176, 0.39);
+//   color: rgb(80, 84, 90);
+
+//   // transition: all 0.3s;
+// }
 
 header .search {
   margin: 0;
@@ -170,6 +168,8 @@ export const masterActionsStyle = createCSS(`
   /* border-bottom: 1px solid rgb(23, 23, 23); */
   color: #6b6f76;
   font-size: .95rem;
+  user-select: none;
+  cursor: pointer;
 }
 
 :host li:hover {

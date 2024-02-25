@@ -34,17 +34,15 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
   this['hide-breadcrumbs']
     ? ''
     : `<nav class="breadcrumbs">
-        <ul>
-          <li class="breadcrumb">
-            <a href="#">Home</a>
-          </li>
-          <li class="breadcrumb">
-            <a href="#">About</a>
-          </li>
-          <li class="breadcrumb">
-            <a href="#">Contact</a>
-          </li>
-        </ul>
+          <button class="breadcrumb">
+            Home
+          </button>
+          <button class="breadcrumb">
+            About
+          </button>
+          <button class="breadcrumb">
+            Contact
+          </button>
       </nav>`}
       <div class="search">
         <input name="search" type="text" placeholder="${this.placeholder}" />
