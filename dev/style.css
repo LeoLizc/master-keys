@@ -83,8 +83,10 @@ kbd svg {
   stroke-width: 1.8;
 }
 
-kbd:hover {
-  animation: press-key 1s ease infinite;
+@media (prefers-reduced-motion: no-preference) {
+  kbd:hover {
+    animation: press-key 1s ease infinite;
+  }
 }
 
 .footer-help {
