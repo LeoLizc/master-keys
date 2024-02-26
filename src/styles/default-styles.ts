@@ -76,7 +76,7 @@ export const masterKeyStyle = createCSS(`
   .modal {
     position: relative;
     box-sizing: border-box;
-    max-width: 640px;
+    max-width: var(--master-width, 640px);
     min-width: 0px;
     min-height: 285px;
     margin: auto;
