@@ -70,7 +70,8 @@ export const masterKeyStyle = createCSS(`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #fff6
+    background-color: #fff6;
+    backdrop-filter: var(--master-backdrop-filter, none);
   }
 
   .modal {
