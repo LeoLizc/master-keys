@@ -254,6 +254,8 @@ kbd {
   font-weight: 500;
   line-height: 1.2;
   height: fit-content;
+
+  flex-shrink: 0;
 }
 
 kbd svg {
