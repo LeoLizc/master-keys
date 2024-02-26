@@ -13,7 +13,7 @@
     "dev": "npm run build:clean -- --watch && concurrently -k -r  \"npm run serve\" \"npm run build:watch\"",
     "co": "sui-mono commit",
     "prepublish": "npm run build:clean",
-    "publish": "clean-publish --clean-comments"
+    "publish:clean": "clean-publish --clean-comments"
   },
   "repository": {
     "type": "git",
