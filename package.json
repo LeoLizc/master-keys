@@ -10,7 +10,8 @@
     "clean": "rimraf dist",
     "build:clean": "npm run clean && npm run build",
     "serve": "live-server --entry-file=dev/index.html --watch=dev,dist",
-    "dev": "npm run build:clean -- --watch && concurrently -k -r  \"npm run serve\" \"npm run build:watch\""
+    "dev": "npm run build:clean -- --watch && concurrently -k -r  \"npm run serve\" \"npm run build:watch\"",
+    "co": "sui-mono commit"
   },
   "repository": {
     "type": "git",
