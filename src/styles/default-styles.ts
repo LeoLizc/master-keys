@@ -70,7 +70,7 @@ export const masterKeyStyle = createCSS(`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #fff6;
+    background-color: var(--master-overflow-background, #fff6);
     backdrop-filter: var(--master-backdrop-filter, none);
   }
 
@@ -91,7 +91,7 @@ export const masterKeyStyle = createCSS(`
     border-radius: 1cqw;
     box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
 
-    color: #333;
+    color: var(--master-text-color, #445);
 
     display: flex;
     flex-direction: column;
@@ -125,7 +125,7 @@ nav .breadcrumb {
   border-radius: 0.3rem;
   background-color: rgba(177, 176, 176, 0.3);
   
-  color: rgb(99 103 110);
+  color: var(--master-key-text-color, #636369);//rgb(99 103 110);
   border: none;
   cursor: pointer;
 }
@@ -156,9 +156,9 @@ header .search {
 
 .search input:focus {
   outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.4);
+  // box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.4);
 
-  color: rgb(80, 84, 90);
+  color: var(--master-text-color, #445);
 }
 
 
@@ -180,7 +180,7 @@ export const masterActionsStyle = createCSS(`
   padding: 1rem;
   padding-block: .8rem;
   /* border-bottom: 1px solid rgb(23, 23, 23); */
-  color: #6b6f76;
+  // color: #6b6f76;
   font-size: .95rem;
   user-select: none;
   cursor: pointer;
@@ -213,7 +213,7 @@ kbd {
   border: 1px solid #ccc;
   border-radius: var(--master-key-border-radius, 3px);
   box-shadow: 0 1px 0 #ccc, 0 2px 0 #fff inset;
-  color: var(--master-key-text-color, #333);
+  color: var(--master-key-text-color, #636369);
   display: inline-block;
   font-size: 11px;
   line-height: 1.4;
@@ -236,6 +236,7 @@ footer {
   display: flex;
   align-items: center;
   /* background-color: red; */
+  color: var(--master-key-text-color, #636369);
 }
 
 kbd {
@@ -243,7 +244,7 @@ kbd {
   border: 1px solid rgb(204, 204, 204);
   border-radius: var(--master-key-border-radius, 3px);
   box-shadow: rgb(204, 204, 204) 0px 1px 0px, color-mix(in srgb, var(--master-key-background-color, #f7f7f7), white 20%) 0px 2px 3px inset;
-  color: var(--master-key-text-color, #333);
+  // color: var(--master-key-text-color, #333);
   display: inline-block;
   font-size: 11px;
   line-height: 1.4;

@@ -2,11 +2,11 @@
 ## CSS Variables
 V-(kbd)		--master-key-border-radius=3px
 V-(kbd)		--master-key-background-color=#f7f7f7	(key-background-color)
-V-(kbd)		--master-key-text-color=#333		(key-color)
-V-(main)	--master-width
-V-(main)		--master-backdrop-filter
--(main)		--master-overflow-background
--(main)		--master-text-color
+V-(kbd)		--master-key-text-color=#333	#636369	(key-color)
+V-(main)	--master-width=640px
+V-(main)	--master-backdrop-filter=none
+V-(main)	--master-overflow-background=#fff6
+V-(main)		--master-text-color=#445
 -(main)		--master-font-size
 -(main)		--master-top
 -(main)		--master-modal-background
