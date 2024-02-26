@@ -83,13 +83,14 @@ export const masterKeyStyle = createCSS(`
     margin: auto;
     padding: 1em;
     padding-bottom: 0;
-    top: 20%;
+    top: var(--master-top, 20%);
     max-height: 70%;
     
     overflow: auto;
-    background-color: #fff;
+    background-color: var(--master-modal-background, #fff);
     border-radius: 1cqw;
-    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--master-modal-shadow, 0 5px 36px rgba(0, 0, 0, 0.4));
+    z-index: var(--master-z-index, 1);
 
     color: var(--master-text-color, #445);
 
@@ -177,7 +178,7 @@ export const masterActionsStyle = createCSS(`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: .6rem;
   padding-block: .8rem;
   /* border-bottom: 1px solid rgb(23, 23, 23); */
   // color: #6b6f76;
