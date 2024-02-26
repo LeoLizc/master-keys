@@ -1,7 +1,7 @@
 # master-keys
 ## CSS Variables
 -(kbd)		--master-key-border-radius = 3px
--(kbd)		--master-key-background-color	(key-background-color)
+-(kbd)		--master-key-background-color=#f7f7f7	(key-background-color)
 -(kbd)		--master-key-text-color		(key-color)
 -(main)		--master-width
 -(main)		--master-backdrop-filter
