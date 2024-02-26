@@ -210,7 +210,7 @@ img.action-icon {
 kbd {
   background-color: #f7f7f7;
   border: 1px solid #ccc;
-  border-radius: 3px;
+  border-radius: var(--master-key-border-radius, 3px);
   box-shadow: 0 1px 0 #ccc, 0 2px 0 #fff inset;
   color: #333;
   display: inline-block;
@@ -240,7 +240,7 @@ footer {
 kbd {
   background-color: rgb(247, 247, 247);
   border: 1px solid rgb(204, 204, 204);
-  border-radius: 3px;
+  border-radius: var(--master-key-border-radius, 3px);
   box-shadow: rgb(204, 204, 204) 0px 1px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
   color: rgb(51, 51, 51);
   display: inline-block;
