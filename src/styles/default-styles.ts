@@ -162,6 +162,9 @@ header .search {
   color: var(--master-text-color, #445);
 }
 
+.search input::placeholder {
+  color: var(--master-placeholder-color, #999);
+}
 
 header {
   border-bottom: 1px solid rgba(177, 176, 176, 0.222)
@@ -188,7 +191,7 @@ export const masterActionsStyle = createCSS(`
 }
 
 :host li:hover {
-  background-color: rgb(236 238 244);
+  background-color: var(--master-selected-background, rgb(236 238 244));
 }
 
 .action-name {
@@ -205,8 +208,8 @@ div.action-icon {
 }
 
 img.action-icon {
-  max-width: 1.3rem;
-  max-height: 1.3rem;
+  max-width: var(--master-icon-size, 1.3rem);
+  max-height: var(--master-icon-size, 1.3rem);
 }
 
 kbd {
@@ -232,7 +235,7 @@ kbd {
 export const masterFooterStyle = createCSS(`
 footer {
   padding: .5rem 1rem;
-  background-color: rgb(242 242 242 / 90%);
+  background-color: var(--master-footer-background, rgb(242 242 242 / 90%));
 
   display: flex;
   align-items: center;
