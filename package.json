@@ -11,11 +11,13 @@
     "build:clean": "npm run clean && npm run build",
     "serve": "live-server --entry-file=dev/index.html --watch=dev,dist",
     "dev": "npm run build:clean -- --watch && concurrently -k -r  \"npm run serve\" \"npm run build:watch\"",
-    "co": "sui-mono commit"
+    "co": "sui-mono commit",
+    "prepublish": "npm run build:clean",
+    "publish": "clean-publish"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leolizc/master-keys.git"
+    "url": "git+https://github.com/leolizc/master-keys.git#main"
   },
   "keywords": [
     "web-components",
