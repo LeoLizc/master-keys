@@ -1,4 +1,5 @@
 # master-keys
+Vanilla keyboard shortcuts interface inspired by the ninja keys.
 ## CSS Variables
 | Name | Default |
 |--|--|
