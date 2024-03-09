@@ -90,7 +90,7 @@ export const masterKeyStyle = createCSS(`
     top: var(--master-top, 20%);
     max-height: 70%;
     
-    overflow: auto;
+    overflow: hidden;
     background-color: var(--master-modal-background, #fff);
     border-radius: 1cqw;
     box-shadow: var(--master-modal-shadow, 0 5px 36px rgba(0, 0, 0, 0.4));
@@ -197,6 +197,23 @@ export const masterActionsStyle = createCSS(`
 
 :host li:hover {
   background-color: var(--master-selected-background, rgb(236 238 244));
+}
+
+.action-container:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.action-container {
+  margin-bottom: .5rem;
+  padding-top: .5rem;
+
+  border-top: 1px solid var(--master-action-border, rgb(177 176 176 / 0.3));
+}
+
+.action-container .action-section-header {
+  font-size: .8rem;
+  // margin-block-end: 0.5rem;
 }
 
 .action-name {
