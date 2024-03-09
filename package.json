@@ -2,7 +2,11 @@
   "name": "master-keys",
   "version": "0.2.10",
   "description": "vanilla keyboard shortcuts interface inspired by the ninja keys",
-  "main": "dist/master-keys.js",
+  "main": "./dist/master-keys.js",
+  "module": "./dist/master-keys.js",
+  "exports": {
+    ".": "./dist/master-keys.js"
+  },
   "type": "module",
   "scripts": {
     "build": "tsc",
