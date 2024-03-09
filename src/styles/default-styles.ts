@@ -72,9 +72,13 @@ export const masterKeyStyle = createCSS(`
     height: 100%;
     background-color: var(--master-overflow-background, #fff6);
     backdrop-filter: var(--master-backdrop-filter, none);
+
+    --master-key-font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    --master-font-family: Lucida Console, 'system-ui', Consolas;
   }
 
   .modal {
+    font-family: var(--master-font-family, 'system-ui');
     position: relative;
     box-sizing: border-box;
     max-width: var(--master-width, 640px);
@@ -120,7 +124,8 @@ export const masterHeaderStyle = createCSS(
 nav .breadcrumb {
   display: inline-block;
   width: fit-content;
-  padding: .1rem 0.5rem;
+  padding: .15rem 0.5rem;
+  padding-top: .27rem;
 
   font-size: 0.8rem;
   border-radius: 0.3rem;
@@ -151,7 +156,7 @@ header .search {
   border: none;
   background: transparent;
 
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 350;
 }
 
@@ -185,7 +190,7 @@ export const masterActionsStyle = createCSS(`
   padding-block: .8rem;
   /* border-bottom: 1px solid rgb(23, 23, 23); */
   // color: #6b6f76;
-  font-size: .95rem;
+  font-size: .85rem;
   user-select: none;
   cursor: pointer;
 }
@@ -224,6 +229,8 @@ kbd {
   margin: 0 .1em;
   padding: 2px 4px;
   white-space: nowrap;
+
+  font-family: var(--master-key-font-family, Consolas);
 }
 
 .action-hotkey {
@@ -241,6 +248,7 @@ footer {
   align-items: center;
   /* background-color: red; */
   color: var(--master-key-text-color, #636369);
+  font-size: .8rem;
 }
 
 kbd {
@@ -250,7 +258,10 @@ kbd {
   box-shadow: rgb(204, 204, 204) 0px 1px 0px, color-mix(in srgb, var(--master-key-background-color, #f7f7f7), white 20%) 0px 2px 3px inset;
   // color: var(--master-key-text-color, #333);
   display: inline-block;
+
   font-size: 11px;
+  font-family: var(--master-key-font-family, Consolas);
+  
   line-height: 1.4;
   margin: 0px 0.25rem;
   padding: 1px 4px;
@@ -279,6 +290,8 @@ kbd svg {
 .footer-help {
   display: flex;
   margin-right: .5rem;
+
+  align-items: center;
 }
 
 @keyframes press-key {
