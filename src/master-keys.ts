@@ -23,7 +23,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
 
   open() {
     this.hidden = false;
-    this.focus();
+    this.header.focusInput();
   }
 
   close() {
@@ -49,6 +49,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
     this.hidden = true;
 
     this.loadHotKeys();
+    this.tabIndex = -1;
   }
 
   attributeChangedCallback(name:string, oldVal:string, newVal:string) {

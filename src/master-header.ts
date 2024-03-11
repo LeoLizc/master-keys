@@ -50,6 +50,11 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
     </header>
     `;
   }
+
+  focusInput() {
+    const input = this.shadowRoot!.querySelector('input');
+    input?.focus();
+  }
 }
 
 window.customElements.define('mks-header', MasterKeyHeader);
