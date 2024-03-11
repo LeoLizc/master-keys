@@ -1,6 +1,6 @@
 {
   "name": "master-keys",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "vanilla keyboard shortcuts interface inspired by the ninja keys",
   "main": "dist/master-keys.js",
   "module": "./dist/master-keys.js",
@@ -16,6 +16,7 @@
     "serve": "live-server --entry-file=dev/index.html --watch=dev,dist",
     "dev": "npm run build:clean -- --watch && concurrently -k -r  \"npm run serve\" \"npm run build:watch\"",
     "co": "sui-mono commit",
+    "check": "sui-mono check",
     "publish:clean": "clean-publish --clean-comments",
     "prepublishOnly": "npm run build:clean && rm -rf ./package && clean-publish",
     "postpublish": "rm -rf ./package"
