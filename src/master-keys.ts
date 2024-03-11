@@ -2,16 +2,33 @@ import { masterKeyStyle } from './styles/default-styles.js';
 import { MasterKeyHeader } from './master-header.js';
 import { MasterActions } from './master-actions.js';
 import { MasterFooter } from './master-footer.js';
+import { type Renderable } from './util.js';
+import { observe, listenHotKey } from './utils.js';
 
-export class MasterKeys extends HTMLElement {
+export class MasterKeys extends HTMLElement implements Renderable {
   header: MasterKeyHeader;
   mksActions: MasterActions;
   footer: HTMLElement;
+
+  @observe
+  accessor openHotKey = 'ctrl+k';
+
+  @observe
+  accessor closeHotkey = 'escape';
 
   static #heareableAttr: Record<string, keyof MasterKeys | 'no-render'> = {
     placeholder: 'header',
     'hide-breadcrumbs': 'header',
   };
+
+  open() {
+    this.hidden = false;
+    this.focus();
+  }
+
+  close() {
+    this.hidden = true;
+  }
 
   static get observedAttributes() {
     const hear = this.#heareableAttr;
@@ -29,6 +46,9 @@ export class MasterKeys extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.hidden = true;
+
+    this.loadHotKeys();
   }
 
   attributeChangedCallback(name:string, oldVal:string, newVal:string) {
@@ -56,6 +76,20 @@ export class MasterKeys extends HTMLElement {
 
     const slot = document.createElement('slot');
     this.shadowRoot!.children[0]!.appendChild(slot);
+  }
+
+  private loadHotKeys() {
+    if (this.openHotKey) {
+      listenHotKey(this.openHotKey, (_e) => {
+        if (this.hidden) this.open(); else this.close();
+      });
+    }
+
+    if (this.closeHotkey) {
+      listenHotKey(this.closeHotkey, (_e) => {
+        if (!this.hidden) this.close();
+      }, this);
+    }
   }
 }
 
