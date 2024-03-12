@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leolizc/master-keys.git#main"
+    "url": "git+https://github.com/leolizc/master-keys.git"
   },
   "keywords": [
     "web-components",
