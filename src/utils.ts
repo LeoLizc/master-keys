@@ -21,23 +21,31 @@ export function createCSS(content: string, props?: CssProps): CSSStyleSheet {
   return style;
 }
 
-export function observe<T extends Renderable, A>(
-  target : ClassAccessorDecoratorTarget<T, A>,
-  context: DecoratorContext,
-): ClassAccessorDecoratorResult<T, A> | void {
-  const { kind } = context;
-  if (kind !== 'accessor') {
-    return;
-  }
+export function observe(
+  callback?: Function,
+) {
+  return function obserDecorator<T extends Renderable, A>(
+    target : ClassAccessorDecoratorTarget<T, A>,
+    context: DecoratorContext,
+  ): ClassAccessorDecoratorResult<T, A> | void {
+    const { kind } = context;
+    if (kind !== 'accessor') {
+      return;
+    }
 
-  const { set } = target;
+    const { set } = target;
 
-  return {
-    ...target,
-    set(value: A) {
-      set.call(this, value);
-      this.render();
-    },
+    return {
+      ...target,
+      set(value: A) {
+        set.call(this, value);
+        if (callback) {
+          callback.call(this);
+        } else {
+          this.render();
+        }
+      },
+    };
   };
 }
 

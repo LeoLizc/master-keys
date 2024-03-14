@@ -5,10 +5,10 @@ import { Renderable } from './util.js';
 export class MasterKeyHeader extends HTMLElement implements Renderable {
   #rendered = false;
 
-  @observe
+  @observe()
   accessor placeholder = 'Type a command or search...';
 
-  @observe
+  @observe()
   accessor 'hide-breadcrumbs' = false;
 
   constructor(
