@@ -10,10 +10,18 @@ export class MasterKeys extends HTMLElement implements Renderable {
   mksActions: MasterActions;
   footer: HTMLElement;
 
-  @observe()
+  @observe(
+    function t(this: MasterKeys) {
+      this.onHotKeyChanged();
+    },
+  )
   accessor openHotKey = 'ctrl+k';
 
-  @observe()
+  @observe(
+    function t(this: MasterKeys) {
+      this.onHotKeyChanged();
+    },
+  )
   accessor closeHotkey = 'escape';
 
   static #heareableAttr: Record<string, keyof MasterKeys | 'no-render'> = {
@@ -91,6 +99,12 @@ export class MasterKeys extends HTMLElement implements Renderable {
         if (!this.hidden) this.close();
       }, this);
     }
+  }
+
+  onHotKeyChanged() {
+    // TODO: remove old hotkeys
+
+    this.loadHotKeys();
   }
 }
 
