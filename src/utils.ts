@@ -77,6 +77,10 @@ export function validateHotKey(hotKey: string): boolean {
   return hotKeyRegex.test(hotKey.toLocaleLowerCase());
 }
 
+// eslint-disable-next-line no-spaced-func
+const hotKeyRegistry = new Map<string, (event: KeyboardEvent) => void>();
+hotKeyRegistry.set('ctrl+k', (_event) => {});
+
 export function listenHotKey(
   hotKey: string,
   callback: (event: KeyboardEvent) => void,
