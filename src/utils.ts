@@ -103,7 +103,8 @@ export function listenHotKey(
       key: '', ctrl: false, shift: false, alt: false,
     },
   );
-  target.addEventListener('keydown', (event) => {
+
+  const func = (event: Event) => {
     if (!(event instanceof KeyboardEvent)) return;
     if (event.repeat) return;
 
@@ -113,5 +114,9 @@ export function listenHotKey(
       && event.altKey === keys.alt) {
       callback(event);
     }
-  });
+  };
+
+  hotKeyRegistry.set(hotKey, func);
+
+  target.addEventListener('keydown', func);
 }
