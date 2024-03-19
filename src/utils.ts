@@ -78,8 +78,8 @@ export function validateHotKey(hotKey: string): boolean {
 }
 
 // eslint-disable-next-line no-spaced-func
-const hotKeyRegistry = new Map<string, (event: KeyboardEvent) => void>();
-hotKeyRegistry.set('ctrl+k', (_event) => {});
+const hotKeyRegistry = new Map<string, ((event: KeyboardEvent) => void)[]>();
+// hotKeyRegistry.set('ctrl+k', [(_event) => {}]);
 
 export function listenHotKey(
   hotKey: string,
@@ -116,7 +116,11 @@ export function listenHotKey(
     }
   };
 
-  hotKeyRegistry.set(hotKey, func);
+  if (hotKeyRegistry.has(hotKey)) {
+    hotKeyRegistry.get(hotKey)?.push(func);
+  } else {
+    hotKeyRegistry.set(hotKey, [func]);
+  }
 
   target.addEventListener('keydown', func);
 }
