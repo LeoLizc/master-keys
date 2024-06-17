@@ -1,0 +1,76 @@
+@import url("/dev/styles/reset.css");
+
+:host {
+  overflow: auto;
+}
+
+:host li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .6rem;
+  padding-block: .8rem;
+  /* border-bottom: 1px solid rgb(23, 23, 23); */
+  font-size: .85rem;
+  user-select: none;
+  cursor: pointer;
+}
+
+:host li:hover {
+  background-color: var(--master-selected-background, rgb(236 238 244));
+}
+
+.action-container:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.action-container {
+  margin-bottom: .5rem;
+  padding-top: .5rem;
+
+  border-top: 1px solid var(--master-action-border, rgb(177 176 176 / 0.3));
+}
+
+.action-container .action-section-header {
+  font-size: .8rem;
+}
+
+.action-name {
+  text-align: start;
+  flex-grow: 2;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+div.action-icon {
+  padding-inline-end: 1rem;
+  flex-shrink: 0;
+}
+
+img.action-icon {
+  max-width: var(--master-icon-size, 1.3rem);
+  max-height: var(--master-icon-size, 1.3rem);
+}
+
+kbd {
+  background-color: var(--master-key-background-color, #f7f7f7);
+  border: 1px solid #ccc;
+  border-radius: var(--master-key-border-radius, 3px);
+  box-shadow: 0 1px 0 #ccc, 0 2px 0 #fff inset;
+  color: var(--master-key-text-color, #636369);
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 0 .1em;
+  padding: 2px 4px;
+  white-space: nowrap;
+
+  font-family: var(--master-key-font-family, Consolas);
+}
+
+.action-hotkey {
+  margin-inline-start: 1rem;
+  flex-shrink: 0;
+}

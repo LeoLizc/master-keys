@@ -1,5 +1,4 @@
 import { Renderable } from './util.d';
-import { masterActionsStyle } from './styles/default-styles.js';
 
 export class MasterActions extends HTMLElement implements Renderable {
   #rendered = false;
@@ -7,7 +6,6 @@ export class MasterActions extends HTMLElement implements Renderable {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot!.adoptedStyleSheets = [masterActionsStyle];
   }
 
   connectedCallback() {
@@ -19,6 +17,7 @@ export class MasterActions extends HTMLElement implements Renderable {
     if (!this.#rendered) return;
 
     this.shadowRoot!.innerHTML = `
+    <link rel="stylesheet" href="/dev/styles/masterActions.css">
     <div class="action-container">
       <h4 class="action-section-header">Actions</h4>
       <ul>
