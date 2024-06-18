@@ -1,0 +1,69 @@
+@import url("/dev/styles/reset.css");
+
+footer {
+  padding: .5rem 1rem;
+  background-color: var(--master-footer-background, rgb(242 242 242 / 90%));
+
+  display: flex;
+  align-items: center;
+  /* background-color: red; */
+  color: var(--master-key-text-color, #636369);
+  font-size: .8rem;
+}
+
+kbd {
+  background-color: var(--master-key-background-color, #f7f7f7);
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: var(--master-key-border-radius, 3px);
+  box-shadow: rgb(204, 204, 204) 0px 1px 0px, color-mix(in srgb, var(--master-key-background-color, #f7f7f7), white 20%) 0px 2px 3px inset;
+  display: inline-block;
+
+  font-size: 11px;
+  font-family: var(--master-key-font-family, Consolas);
+  
+  line-height: 1.4;
+  margin: 0px 0.25rem;
+  padding: 1px 4px;
+  white-space: nowrap;
+  /* padding: .2rem .5rem; */
+  font-size: .9rem;
+  font-weight: 500;
+  line-height: 1.2;
+  height: fit-content;
+
+  flex-shrink: 0;
+}
+
+kbd svg {
+  width: 1rem;
+  height: 1rem;
+  stroke-width: 1.8;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  kbd:hover {
+    animation: press-key 1s ease infinite;
+  }
+}
+
+.footer-help {
+  display: flex;
+  margin-right: .5rem;
+
+  align-items: center;
+}
+
+@keyframes press-key {
+  0% {
+    box-shadow: rgb(204, 204, 204) 0px 2px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
+  }
+
+  50% {
+    box-shadow: rgb(204, 204, 204) 0px 0px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
+    transform: translateY(1px);
+  }
+
+  100% {
+    box-shadow: rgb(204, 204, 204) 0px 2px 0px, rgb(255, 255, 255) 0px 2px 0px inset;
+  }
+}
