@@ -1,6 +1,6 @@
 {
   "name": "master-keys",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "vanilla keyboard shortcuts interface inspired by the ninja keys",
   "main": "dist/master-keys.js",
   "module": "./dist/master-keys.js",
