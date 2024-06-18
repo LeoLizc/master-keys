@@ -1,4 +1,3 @@
-import { masterHeaderStyle } from './styles/default-styles.js';
 import { observe } from './utils.js';
 import { Renderable } from './util.js';
 
@@ -16,7 +15,6 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
   ) {
     super();
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot!.adoptedStyleSheets = [masterHeaderStyle];
     this.placeholder = placeholder;
   }
 
@@ -29,6 +27,7 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
     if (!this.#rendered) return;
 
     this.shadowRoot!.innerHTML = `
+    <link rel="stylesheet" href="https://leolizc.github.io/master-keys/masterHeader.css">
     <header>
       ${
   this['hide-breadcrumbs']

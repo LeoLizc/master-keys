@@ -1,4 +1,3 @@
-import { masterKeyStyle } from './styles/default-styles.js';
 import { MasterKeyHeader } from './master-header.js';
 import { MasterActions } from './master-actions.js';
 import { MasterFooter } from './master-footer.js';
@@ -46,7 +45,6 @@ export class MasterKeys extends HTMLElement implements Renderable {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot!.adoptedStyleSheets = [masterKeyStyle];
     this.header = new MasterKeyHeader();
     this.mksActions = new MasterActions();
     this.footer = new MasterFooter();
@@ -78,6 +76,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
     this.shadowRoot!.innerHTML = `
       <div class="modal">
       </div>
+      <link rel="stylesheet" href="https://leolizc.github.io/master-keys/masterKey.css">
     `;
     this.shadowRoot!.children[0]!.appendChild(this.header);
     this.shadowRoot!.children[0]!.appendChild(this.mksActions);
