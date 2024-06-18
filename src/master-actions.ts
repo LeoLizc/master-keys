@@ -17,7 +17,7 @@ export class MasterActions extends HTMLElement implements Renderable {
     if (!this.#rendered) return;
 
     this.shadowRoot!.innerHTML = `
-    <link rel="stylesheet" href="/dev/styles/masterActions.css">
+    <link rel="stylesheet" href="https://leolizc.github.io/master-keys/masterActions.css">
     <div class="action-container">
       <h4 class="action-section-header">Actions</h4>
       <ul>
