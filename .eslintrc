@@ -16,6 +16,7 @@
         "argsIgnorePattern": "^_"
       }
     ],
+    "no-restricted-syntax":"off",
     "@typescript-eslint/lines-between-class-members": [
       "error",
       "always",

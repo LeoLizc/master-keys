@@ -13,24 +13,25 @@ export interface IProtoMasterAction {
   section?: string;
 }
 
-export type IMasterAction = {
-  id?: string;
-  title: string;
-  hotkey?: string;
-  handler?: Function;
-  mdIcon?: string;
-  icon?: string;
-  keywords?: string;
-  section?: string;
-} | {
+export interface IUniqueMasterAction {
   id: string;
   title: string;
   hotkey?: string;
   handler?: Function;
   mdIcon?: string;
   icon?: string;
-  parent?: string;
   keywords?: string;
-  children?: (string | IMasterAction)[];
   section?: string;
-};
+}
+
+export interface IFlatMasterAction extends IUniqueMasterAction {
+  parent?: string;
+  children?: string[];
+}
+
+export interface INestedMasterAction extends IUniqueMasterAction {
+  parent?: string;
+  children?: IMasterAction[];
+}
+
+export type IMasterAction = IFlatMasterAction | INestedMasterAction;
