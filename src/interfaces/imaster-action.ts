@@ -5,7 +5,6 @@ export interface IProtoMasterAction {
   title: string;
   hotkey?: string;
   handler?: Function;
-  mdIcon?: string;
   icon?: string;
   parent?: string;
   keywords?: string;
@@ -18,7 +17,6 @@ export interface IUniqueMasterAction {
   title: string;
   hotkey?: string;
   handler?: Function;
-  mdIcon?: string;
   icon?: string;
   keywords?: string;
   section?: string;
