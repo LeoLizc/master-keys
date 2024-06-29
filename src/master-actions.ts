@@ -1,15 +1,19 @@
 /* eslint-disable max-len */
-import { IMasterAction } from './interfaces/imaster-action';
+import { MasterHandler, IMasterAction } from './interfaces/imaster-action';
+import { MasterKeys } from './master-keys';
 import { Renderable } from './util.d';
 import { listenHotKey, unlistenHotKey } from './utils.js';
 
 export class MasterActions extends HTMLElement implements Renderable {
   #rendered = false;
+  #masterParent: MasterKeys;
+  #keyEvents: { key:string, event: EventListener }[] = [];
   actions: IMasterAction[] = [];
 
-  constructor() {
+  constructor(parent: MasterKeys) {
     super();
     this.attachShadow({ mode: 'open' });
+    this.#masterParent = parent;
   }
 
   connectedCallback() {
@@ -38,7 +42,7 @@ export class MasterActions extends HTMLElement implements Renderable {
       actionContainer.classList.add('action-container');
       ul = document.createElement('ul');
       sections.get(undefined)!
-        .forEach((action) => ul.appendChild(MasterActions.#constructAction(action)));
+        .forEach((action) => ul.appendChild(this.#constructAction(action)));
       actionContainer.appendChild(ul);
       this.shadowRoot!.appendChild(actionContainer);
     }
@@ -55,107 +59,13 @@ export class MasterActions extends HTMLElement implements Renderable {
 
       ul = document.createElement('ul');
       // eslint-disable-next-line @typescript-eslint/no-loop-func
-      actions.forEach((action) => ul.appendChild(MasterActions.#constructAction(action)));
+      actions.forEach((action) => ul.appendChild(this.#constructAction(action)));
       actionContainer.appendChild(ul);
       this.shadowRoot!.appendChild(actionContainer);
     }
-    /*
-    this.shadowRoot!.innerHTML = `
-    <link rel="stylesheet" href="https://leolizc.github.io/master-keys/masterActions.css">
-    <div class="action-container">
-      <h4 class="action-section-header">Actions</h4>
-      <ul>
-        <li>
-          <div class="action-icon">
-            <img src="/dev/icons/house.svg" alt="icon" class="action-icon">
-          </div>
-          <div class="action-name">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro deserunt quo in sed! Nobis a omnis ratione fugiat temporibus itaque perspiciatis placeat, culpa, et, animi tempora nihil delectus quisquam laudantium. Rerum aliquam facilis molestias quaerat reiciendis, ea perferendis harum.
-          </div>
-          <div class="action-hotkey">
-            <kbd>Cmd</kbd>
-            <kbd>H</kbd>
-          </div>
-        </li>
-        <li>
-          <div class="action-icon">
-            <img src="/dev/icons/grid.svg" alt="icon" class="action-icon">
-          </div>
-          <div class="action-name">
-            Open Projects
-          </div>
-          <div class="action-hotkey">
-            <kbd>Cmd</kbd>
-            <kbd>P</kbd>
-          </div>
-        </li>
-        <li>
-          <div class="action-icon">
-            <img src="/dev/icons/bulb.svg" alt="icon" class="action-icon">
-          </div>
-          <div class="action-name">
-            Change Themes...
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="action-container">
-      <h4 class="action-section-header">Actions</h4>
-      <ul>
-        <li>
-          <div class="action-icon">
-            <img src="/dev/icons/house.svg" alt="icon" class="action-icon">
-          </div>
-          <div class="action-name">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro deserunt quo in sed! Nobis a omnis ratione fugiat temporibus itaque perspiciatis placeat, culpa, et, animi tempora nihil delectus quisquam laudantium. Rerum aliquam facilis molestias quaerat reiciendis, ea perferendis harum.
-          </div>
-          <div class="action-hotkey">
-            <kbd>Cmd</kbd>
-            <kbd>H</kbd>
-          </div>
-        </li>
-        <li>
-          <div class="action-icon">
-            <img src="/dev/icons/grid.svg" alt="icon" class="action-icon">
-          </div>
-          <div class="action-name">
-            Open Projects
-          </div>
-          <div class="action-hotkey">
-            <kbd>Cmd</kbd>
-            <kbd>P</kbd>
-          </div>
-        </li>
-        <li>
-          <div class="action-icon">
-            <img src="/dev/icons/grid.svg" alt="icon" class="action-icon">
-          </div>
-          <div class="action-name">
-            Open Projects
-          </div>
-          <div class="action-hotkey">
-            <kbd>Cmd</kbd>
-            <kbd>P</kbd>
-          </div>
-        </li>
-        <li>
-          <div class="action-icon">
-            <img src="/dev/icons/grid.svg" alt="icon" class="action-icon">
-          </div>
-          <div class="action-name">
-            Open Projects
-          </div>
-          <div class="action-hotkey">
-            <kbd>Cmd</kbd>
-            <kbd>P</kbd>
-          </div>
-        </li>
-      </ul>
-    </div>
-    `;// */
   }
 
-  static #constructAction(action: IMasterAction): HTMLElement {
+  #constructAction(action: IMasterAction): HTMLElement {
     // TODO: FIX HOT KEYS
 
     const li = document.createElement('li');
@@ -175,18 +85,32 @@ export class MasterActions extends HTMLElement implements Renderable {
       </div>
     `;
 
-    if (action.hotkey && action.handler) {
-      listenHotKey(action.hotkey, () => action.handler!());
+    if (action.handler) {
+      const handler = this.#listenHandler(action.handler);
+      li.addEventListener('click', handler);
+      if (action.hotkey) {
+        listenHotKey(action.hotkey, handler, this.#masterParent);
+        this.#keyEvents.push({ key: action.hotkey, event: handler });
+      }
     }
+
     return li;
   }
 
   async disconnectedCallback() {
-    for (const action of this.actions) {
-      if (action.hotkey && action.handler) {
-        unlistenHotKey(action.hotkey, () => action.handler!());
+    // Remove all event listeners
+    this.#keyEvents.forEach(({ key, event }) => unlistenHotKey(key, event, this.#masterParent));
+  }
+
+  #listenHandler(handler: MasterHandler) {
+    return (ev: Event) => {
+      ev.preventDefault();
+      const response = handler();
+
+      if (!response || !response.keepOpen) {
+        this.#masterParent.close();
       }
-    }
+    };
   }
 }
 

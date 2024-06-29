@@ -109,7 +109,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
       id: '7',
       title: 'Open Projects',
       hotkey: 'ctrl+B',
-      handler: () => console.log('Hello'),
+      handler: () => { console.log('Hello'); return { keepOpen: true }; },
       section: 'Actions2',
       icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
     },
@@ -214,7 +214,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
     super();
     this.attachShadow({ mode: 'open' });
     this.header = new MasterKeyHeader();
-    this.mksActions = new MasterActions();
+    this.mksActions = new MasterActions(this);
     this.footer = new MasterFooter();
   }
 

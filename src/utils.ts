@@ -78,7 +78,13 @@ export function validateHotKey(hotKey: string): boolean {
 }
 
 // eslint-disable-next-line no-spaced-func
-const hotKeyRegistry = new Map<string, ((event: KeyboardEvent) => void)[]>();
+const hotKeyRegistry = new Map<
+string,
+{
+  callback: Function,
+  listener: ((event: KeyboardEvent) => void)
+}[]
+>();
 // hotKeyRegistry.set('ctrl+k', [(_event) => {}]);
 
 export function listenHotKey(
@@ -117,9 +123,9 @@ export function listenHotKey(
   };
 
   if (hotKeyRegistry.has(hotKey)) {
-    hotKeyRegistry.get(hotKey)?.push(func);
+    hotKeyRegistry.get(hotKey)?.push({ callback, listener: func });
   } else {
-    hotKeyRegistry.set(hotKey, [func]);
+    hotKeyRegistry.set(hotKey, [{ callback, listener: func }]);
   }
 
   target.addEventListener('keydown', func);
@@ -136,16 +142,15 @@ export function unlistenHotKey(
 
   if (!hotKeyRegistry.has(hotKey)) return;
 
+  const funcs = hotKeyRegistry.get(hotKey)!;
   if (callback != null) {
-    const funcs = hotKeyRegistry.get(hotKey)!;
-    const index = funcs.findIndex((func) => func === callback);
-    if (index === -1) return;
-
-    target.removeEventListener('keydown', funcs[index] as EventListener);
-    funcs.splice(index, 1);
-  } else {
-    const funcs = hotKeyRegistry.get(hotKey)!;
-    const func = funcs.pop();
-    target.removeEventListener('keydown', func as EventListener);
+    const index = funcs.findIndex(({ callback: func }) => func === callback);
+    if (index !== -1) {
+      target.removeEventListener('keydown', funcs[index].listener as EventListener);
+      funcs.splice(index, 1);
+      return;
+    }
   }
+  const func = funcs.pop();
+  target.removeEventListener('keydown', func?.listener as EventListener);
 }

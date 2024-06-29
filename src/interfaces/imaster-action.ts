@@ -1,10 +1,12 @@
 export type MasterData = IProtoMasterAction[];
 
+export type MasterHandler = () => ({ keepOpen: boolean } | void);
+
 export interface IProtoMasterAction {
   id: string;
   title: string;
   hotkey?: string;
-  handler?: Function;
+  handler?: MasterHandler;
   icon?: string;
   parent?: string;
   keywords?: string;
@@ -16,7 +18,7 @@ export interface IUniqueMasterAction {
   id: string;
   title: string;
   hotkey?: string;
-  handler?: Function;
+  handler?: MasterHandler;
   icon?: string;
   keywords?: string;
   section?: string;
