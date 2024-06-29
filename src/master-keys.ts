@@ -11,10 +11,110 @@ export class MasterKeys extends HTMLElement implements Renderable {
   footer: HTMLElement;
 
   @observe()
-  private accessor rawData: IMasterAction[] = [];
+  private accessor rawData: IMasterAction[] = [
+    {
+      id: '1',
+      title: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro deserunt quo in sed! Nobis a omnis ratione fugiat temporibus itaque perspiciatis placeat, culpa, et, animi tempora nihil delectus quisquam laudantium. Rerum aliquam facilis molestias quaerat reiciendis, ea perferendis harum.',
+      hotkey: 'ctrl + H',
+      section: 'Actions',
+      icon: '<img src="/dev/icons/house.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '2',
+      title: 'Open Projects',
+      hotkey: 'ctrl + P',
+      section: 'Actions',
+      icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '3',
+      title: 'Change Themes...',
+      section: 'Actions',
+      icon: '<img src="/dev/icons/bulb.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '4',
+      title: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro deserunt quo in sed! Nobis a omnis ratione fugiat temporibus itaque perspiciatis placeat, culpa, et, animi tempora nihil delectus quisquam laudantium. Rerum aliquam facilis molestias quaerat reiciendis, ea perferendis harum.',
+      hotkey: 'ctrl + H',
+      section: 'Actions2',
+      icon: '<img src="/dev/icons/house.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '5',
+      title: 'Open Projects',
+      hotkey: 'ctrl + P',
+      section: 'Actions2',
+      icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '6',
+      title: 'Open Projects',
+      hotkey: 'ctrl + P',
+      section: 'Actions2',
+      // icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '7',
+      title: 'Open Projects',
+      hotkey: 'ctrl+b',
+      section: 'Actions2',
+      icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
+    },
+  ];
 
   private nestedData: Map<string, INestedMasterAction> = new Map();
-  private rootData: INestedMasterAction[] = [];
+  private rootData: INestedMasterAction[] = [
+    {
+      id: '1',
+      title: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro deserunt quo in sed! Nobis a omnis ratione fugiat temporibus itaque perspiciatis placeat, culpa, et, animi tempora nihil delectus quisquam laudantium. Rerum aliquam facilis molestias quaerat reiciendis, ea perferendis harum.',
+      hotkey: 'ctrl+H',
+      section: 'Actions',
+      icon: '<img src="/dev/icons/house.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '2',
+      title: 'Open Projects',
+      hotkey: 'ctrl+P',
+      section: 'Actions',
+      icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '3',
+      title: 'Change Themes...',
+      section: 'Actions',
+      icon: '<img src="/dev/icons/bulb.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '4',
+      title: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro deserunt quo in sed! Nobis a omnis ratione fugiat temporibus itaque perspiciatis placeat, culpa, et, animi tempora nihil delectus quisquam laudantium. Rerum aliquam facilis molestias quaerat reiciendis, ea perferendis harum.',
+      hotkey: 'ctrl+H',
+      section: 'Actions2',
+      icon: '<img src="/dev/icons/house.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '5',
+      title: 'Open Projects',
+      hotkey: 'ctrl+P',
+      section: 'Actions2',
+      icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '6',
+      title: 'Open Projects',
+      hotkey: 'ctrl+P',
+      section: 'Actions2',
+      // icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
+    },
+    {
+      id: '7',
+      title: 'Open Projects',
+      hotkey: 'ctrl+B',
+      handler: () => console.log('Hello'),
+      section: 'Actions2',
+      icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
+    },
+  ];
+
   private parent?: string;
 
   get data() {

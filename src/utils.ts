@@ -124,3 +124,28 @@ export function listenHotKey(
 
   target.addEventListener('keydown', func);
 }
+
+export function unlistenHotKey(
+  hotKey: string,
+  callback?: (event: KeyboardEvent) => void,
+  target: EventTarget = document,
+): void {
+  if (!validateHotKey(hotKey)) {
+    throw new Error(`Invalid hotkey: ${hotKey}`);
+  }
+
+  if (!hotKeyRegistry.has(hotKey)) return;
+
+  if (callback != null) {
+    const funcs = hotKeyRegistry.get(hotKey)!;
+    const index = funcs.findIndex((func) => func === callback);
+    if (index === -1) return;
+
+    target.removeEventListener('keydown', funcs[index] as EventListener);
+    funcs.splice(index, 1);
+  } else {
+    const funcs = hotKeyRegistry.get(hotKey)!;
+    const func = funcs.pop();
+    target.removeEventListener('keydown', func as EventListener);
+  }
+}

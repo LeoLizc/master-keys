@@ -1,59 +1,11 @@
 /* eslint-disable max-len */
 import { IMasterAction } from './interfaces/imaster-action';
 import { Renderable } from './util.d';
+import { listenHotKey, unlistenHotKey } from './utils.js';
 
 export class MasterActions extends HTMLElement implements Renderable {
   #rendered = false;
-  actions: IMasterAction[] = [
-    {
-      id: '1',
-      title: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro deserunt quo in sed! Nobis a omnis ratione fugiat temporibus itaque perspiciatis placeat, culpa, et, animi tempora nihil delectus quisquam laudantium. Rerum aliquam facilis molestias quaerat reiciendis, ea perferendis harum.',
-      hotkey: 'Cmd + H',
-      section: 'Actions',
-      icon: '<img src="/dev/icons/house.svg" alt="icon" class="action-icon">',
-    },
-    {
-      id: '2',
-      title: 'Open Projects',
-      hotkey: 'Cmd + P',
-      section: 'Actions',
-      icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
-    },
-    {
-      id: '3',
-      title: 'Change Themes...',
-      section: 'Actions',
-      icon: '<img src="/dev/icons/bulb.svg" alt="icon" class="action-icon">',
-    },
-    {
-      id: '4',
-      title: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro deserunt quo in sed! Nobis a omnis ratione fugiat temporibus itaque perspiciatis placeat, culpa, et, animi tempora nihil delectus quisquam laudantium. Rerum aliquam facilis molestias quaerat reiciendis, ea perferendis harum.',
-      hotkey: 'Cmd + H',
-      section: 'Actions2',
-      icon: '<img src="/dev/icons/house.svg" alt="icon" class="action-icon">',
-    },
-    {
-      id: '5',
-      title: 'Open Projects',
-      hotkey: 'Cmd + P',
-      section: 'Actions2',
-      icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
-    },
-    {
-      id: '6',
-      title: 'Open Projects',
-      hotkey: 'Cmd + P',
-      section: 'Actions2',
-      // icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
-    },
-    {
-      id: '7',
-      title: 'Open Projects',
-      hotkey: 'Cmd + P',
-      section: 'Actions2',
-      icon: '<img src="/dev/icons/grid.svg" alt="icon" class="action-icon">',
-    },
-  ];
+  actions: IMasterAction[] = [];
 
   constructor() {
     super();
@@ -222,7 +174,19 @@ export class MasterActions extends HTMLElement implements Renderable {
 }
       </div>
     `;
+
+    if (action.hotkey && action.handler) {
+      listenHotKey(action.hotkey, () => action.handler!());
+    }
     return li;
+  }
+
+  async disconnectedCallback() {
+    for (const action of this.actions) {
+      if (action.hotkey && action.handler) {
+        unlistenHotKey(action.hotkey, () => action.handler!());
+      }
+    }
   }
 }
 
