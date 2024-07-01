@@ -130,8 +130,6 @@ export class MasterKeys extends HTMLElement implements Renderable {
       parent: INestedMasterAction,
       children: (IMasterAction | string)[],
     ) => {
-      console.log('Registering children for:', parent.id, children);
-
       const newChildren = (children.filter((child) => typeof child !== 'string') as INestedMasterAction[])
         .map((child) => {
           if (!newNestedData.has(child.id)) {
@@ -139,8 +137,6 @@ export class MasterKeys extends HTMLElement implements Renderable {
           }
           return newNestedData.get(child.id)!;
         });
-
-      console.log('New children:', newChildren);
 
       // eslint-disable-next-line no-param-reassign
       parent.children = parent.children!.concat(newChildren);
