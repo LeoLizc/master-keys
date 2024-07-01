@@ -126,7 +126,12 @@ export class MasterKeys extends HTMLElement implements Renderable {
     const newNestedData: Map<string, INestedMasterAction> = new Map();
     const newRootData: INestedMasterAction[] = [];
 
-    const registerChildren = (parent: INestedMasterAction, children: IMasterAction[]) => {
+    const registerChildren = (
+      parent: INestedMasterAction,
+      children: (IMasterAction | string)[],
+    ) => {
+      console.log('Registering children for:', parent.id, children);
+
       const newChildren = (children.filter((child) => typeof child !== 'string') as INestedMasterAction[])
         .map((child) => {
           if (!newNestedData.has(child.id)) {
@@ -134,6 +139,8 @@ export class MasterKeys extends HTMLElement implements Renderable {
           }
           return newNestedData.get(child.id)!;
         });
+
+      console.log('New children:', newChildren);
 
       // eslint-disable-next-line no-param-reassign
       parent.children = parent.children!.concat(newChildren);
@@ -144,7 +151,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
         }
       });
 
-      return newChildren;
+      return parent.children;
     };
 
     this.nestedData = data.reduce<Map<string, INestedMasterAction>>((acc, item) => {
@@ -167,7 +174,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
           itemClone.children = [];
         }
         // TODO: arreglar recursividad
-        itemClone.children = registerChildren(itemClone, itemClone.children!);
+        itemClone.children = registerChildren(itemClone, item.children!);
         // .concat(itemClone.children as INestedMasterAction[]);
       }
 
