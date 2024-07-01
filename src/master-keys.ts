@@ -126,19 +126,30 @@ export class MasterKeys extends HTMLElement implements Renderable {
     const newNestedData: Map<string, INestedMasterAction> = new Map();
     const newRootData: INestedMasterAction[] = [];
 
-    const registerChildren = (parent: INestedMasterAction, children: IMasterAction[]) => (
-      (children.filter((child) => typeof child !== 'string') as INestedMasterAction[])
+    const registerChildren = (parent: INestedMasterAction, children: IMasterAction[]) => {
+      const newChildren = (children.filter((child) => typeof child !== 'string') as INestedMasterAction[])
         .map((child) => {
           if (!newNestedData.has(child.id)) {
             newNestedData.set(child.id, { ...child, children: [], parent: parent.id });
           }
           return newNestedData.get(child.id)!;
-        })
-    );
+        });
+
+      // eslint-disable-next-line no-param-reassign
+      parent.children = parent.children!.concat(newChildren);
+
+      newChildren.forEach((child) => {
+        if (child.children != null) {
+          registerChildren(child, child.children);
+        }
+      });
+
+      return newChildren;
+    };
 
     this.nestedData = data.reduce<Map<string, INestedMasterAction>>((acc, item) => {
       if (!acc.has(item.id)) {
-        //! Redundant
+        // TODO: Fix Redundant code
         const newItem = {
           ...item, id: item.id ?? crypto.randomUUID(), children: [], parent: undefined,
         };
@@ -156,8 +167,8 @@ export class MasterKeys extends HTMLElement implements Renderable {
           itemClone.children = [];
         }
         // TODO: arreglar recursividad
-        itemClone.children = registerChildren(itemClone, itemClone.children!)
-          .concat(itemClone.children as INestedMasterAction[]);
+        itemClone.children = registerChildren(itemClone, itemClone.children!);
+        // .concat(itemClone.children as INestedMasterAction[]);
       }
 
       if (item.parent != null) {
