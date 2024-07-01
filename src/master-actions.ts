@@ -94,6 +94,12 @@ export class MasterActions extends HTMLElement implements Renderable {
       }
     }
 
+    if (action.children && action.children.length > 0) {
+      li.addEventListener('click', () => {
+        this.#masterParent.parent = action.id;
+      });
+    }
+
     return li;
   }
 
