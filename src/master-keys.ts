@@ -115,7 +115,8 @@ export class MasterKeys extends HTMLElement implements Renderable {
     },
   ];
 
-  private parent?: string;
+  @observe()
+  accessor parent: string | undefined;
 
   get data() {
     return this.rawData;
@@ -126,12 +127,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
     const newRootData: INestedMasterAction[] = [];
 
     const registerChildren = (parent: INestedMasterAction, children: IMasterAction[]) => (
-      (children.filter((child) => {
-        if (typeof child === 'string') {
-          return false;
-        }
-        return true;
-      }) as INestedMasterAction[])
+      (children.filter((child) => typeof child !== 'string') as INestedMasterAction[])
         .map((child) => {
           if (!newNestedData.has(child.id)) {
             newNestedData.set(child.id, { ...child, children: [], parent: parent.id });
@@ -142,7 +138,11 @@ export class MasterKeys extends HTMLElement implements Renderable {
 
     this.nestedData = data.reduce<Map<string, INestedMasterAction>>((acc, item) => {
       if (!acc.has(item.id)) {
-        acc.set(item.id, { ...item, children: [], parent: undefined });
+        //! Redundant
+        const newItem = {
+          ...item, id: item.id ?? crypto.randomUUID(), children: [], parent: undefined,
+        };
+        acc.set(newItem.id, newItem);
       } else {
         Object.assign(acc.get(item.id)!, {
           ...item,
@@ -155,7 +155,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
         if (itemClone.children == null) {
           itemClone.children = [];
         }
-
+        // TODO: arreglar recursividad
         itemClone.children = registerChildren(itemClone, itemClone.children!)
           .concat(itemClone.children as INestedMasterAction[]);
       }
@@ -175,6 +175,22 @@ export class MasterKeys extends HTMLElement implements Renderable {
 
     this.rootData = newRootData;
     this.rawData = data;
+  }
+
+  get breadcrumbs() {
+    const breadcrumbs = [];
+
+    if (this.parent != null) {
+      let current: string | undefined = this.parent;
+      while (current != null) {
+        breadcrumbs.push(current);
+        const parent = this.nestedData.get(current);
+        if (parent == null) break;
+        current = parent.parent;
+      }
+    }
+
+    return breadcrumbs.reverse();
   }
 
   @observe(
@@ -213,7 +229,9 @@ export class MasterKeys extends HTMLElement implements Renderable {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.header = new MasterKeyHeader();
+    this.header = new MasterKeyHeader(
+      this,
+    );
     this.mksActions = new MasterActions(this);
     this.footer = new MasterFooter();
   }
@@ -251,6 +269,9 @@ export class MasterKeys extends HTMLElement implements Renderable {
     this.mksActions.actions = this.parent == null
       ? this.rootData
       : this.nestedData.get(this.parent)!.children ?? [];
+
+    // - UPDATE THE HEADER
+    this.header.breadcrumbs = this.breadcrumbs;
 
     // - Append the children
     this.shadowRoot!.children[0]!.appendChild(this.header);
