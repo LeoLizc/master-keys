@@ -6,6 +6,9 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
   #rendered = false;
   #masterParent: MasterKeys;
   breadcrumbs: string[] = ['Home'];
+  get #inputValue() {
+    return this.#masterParent.search;
+  }
 
   @observe()
   accessor placeholder = 'Type a command or search...';
@@ -70,6 +73,12 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
     input.name = 'search';
     input.type = 'text';
     input.placeholder = this.placeholder;
+    input.value = this.#inputValue;
+    input.addEventListener('input', (e: Event) => {
+      // console.log('input', (e.target as HTMLInputElement).value);
+      this.#masterParent.search = (e.target as HTMLInputElement).value;
+    });
+
     search.appendChild(input);
 
     /*

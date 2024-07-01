@@ -118,6 +118,9 @@ export class MasterKeys extends HTMLElement implements Renderable {
   @observe()
   accessor parent: string | undefined;
 
+  @observe()
+  accessor search = '';
+
   get data() {
     return this.rawData;
   }
@@ -280,9 +283,18 @@ export class MasterKeys extends HTMLElement implements Renderable {
     `;
 
     // - UPDATE THE CHILDREN
-    this.mksActions.actions = this.parent == null
+    let actionMatches = this.parent == null
       ? this.rootData
       : this.nestedData.get(this.parent)!.children ?? [];
+
+    actionMatches = actionMatches.filter((action) => {
+      const regex = new RegExp(this.search, 'gi');
+      const matcher = action.title.match(regex) || action.keywords?.match(regex);
+
+      return matcher;
+    });
+
+    this.mksActions.actions = actionMatches;
 
     // - UPDATE THE HEADER
     this.header.breadcrumbs = this.breadcrumbs;
@@ -294,6 +306,8 @@ export class MasterKeys extends HTMLElement implements Renderable {
 
     const slot = document.createElement('slot');
     this.shadowRoot!.children[0]!.appendChild(slot);
+
+    this.header.focusInput();
   }
 
   private loadHotKeys() {
