@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { MasterHandler, IMasterAction } from './interfaces/imaster-action';
+import { IMasterAction } from './interfaces/imaster-action';
 import { MasterKeys } from './master-keys';
 import { Renderable } from './util.d';
 import { listenHotKey, unlistenHotKey } from './utils.js';
@@ -85,19 +85,14 @@ export class MasterActions extends HTMLElement implements Renderable {
       </div>
     `;
 
-    if (action.handler) {
-      const handler = this.#listenHandler(action.handler);
-      li.addEventListener('click', handler);
-      if (action.hotkey) {
-        listenHotKey(action.hotkey, handler, this.#masterParent);
-        this.#keyEvents.push({ key: action.hotkey, event: handler });
-      }
-    }
+    const handler = (e: Event) => {
+      e.preventDefault();
+      this.#masterParent.selectAction(action);
+    };
 
-    if (action.children && action.children.length > 0) {
-      li.addEventListener('click', () => {
-        this.#masterParent.parent = action.id;
-      });
+    li.addEventListener('click', handler);
+    if (action.hotkey) {
+      listenHotKey(action.hotkey, handler, this.#masterParent);
     }
 
     return li;
@@ -105,18 +100,16 @@ export class MasterActions extends HTMLElement implements Renderable {
 
   async disconnectedCallback() {
     // Remove all event listeners
-    this.#keyEvents.forEach(({ key, event }) => unlistenHotKey(key, event, this.#masterParent));
-  }
+    // this.#keyEvents.forEach(({ key, event }) => unlistenHotKey(key, event, this.#masterParent));
 
-  #listenHandler(handler: MasterHandler) {
-    return (ev: Event) => {
-      ev.preventDefault();
-      const response = handler();
-
-      if (!response || !response.keepOpen) {
-        this.#masterParent.close();
+    this.actions.forEach((action) => {
+      if (action.hotkey && action.handler) {
+        unlistenHotKey(action.hotkey, (e: Event) => {
+          e.preventDefault();
+          this.#masterParent.selectAction(action);
+        }, this.#masterParent);
       }
-    };
+    });
   }
 }
 

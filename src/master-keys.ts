@@ -238,6 +238,21 @@ export class MasterKeys extends HTMLElement implements Renderable {
     this.hidden = true;
   }
 
+  selectAction(action: IMasterAction) {
+    if (action.children && action.children.length > 0) {
+      this.parent = action.id;
+      this.search = '';
+      this.header.focusInput();
+    }
+
+    if (action.handler != null) {
+      const result = action.handler();
+      if (result?.keepOpen !== true) {
+        this.close();
+      }
+    }
+  }
+
   static get observedAttributes() {
     const hear = this.#heareableAttr;
     return Object.keys(hear);
