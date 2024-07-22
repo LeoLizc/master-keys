@@ -194,6 +194,39 @@ export class MasterKeys extends HTMLElement implements Renderable {
     this.rawData = data;
   }
 
+  get actions() {
+    return this.parent == null
+      ? this.rootData
+      : this.nestedData.get(this.parent)!.children ?? [];
+  }
+
+  @observe()
+  accessor selectedAction: number = 0;
+
+  #listenKeys() {
+    this.addEventListener('keydown', (ev) => {
+      const key = ev.code;
+      console.log('key Pressed:', key);
+      const numActions = this.actions.length;
+
+      if (key === 'ArrowDown') {
+        this.selectedAction = (numActions + ((this.selectedAction - 1) % numActions)) % numActions;
+      }
+
+      if (key === 'ArrowUp') {
+        this.selectedAction = (numActions + ((this.selectedAction - 1) % numActions)) % numActions;
+      }
+
+      if (key === 'Enter') {
+        this.parent = this.actions[this.selectedAction]?.id ?? undefined;
+      }
+
+      if (key === 'Backspace') {
+        if (this.parent) this.parent = this.nestedData.get(this.parent)?.parent ?? undefined;
+      }
+    });
+  }
+
   get breadcrumbs() {
     const breadcrumbs = [];
 
@@ -266,6 +299,8 @@ export class MasterKeys extends HTMLElement implements Renderable {
     );
     this.mksActions = new MasterActions(this);
     this.footer = new MasterFooter();
+
+    this.#listenKeys();
   }
 
   connectedCallback() {

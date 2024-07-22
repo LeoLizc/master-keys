@@ -36,13 +36,17 @@ export class MasterActions extends HTMLElement implements Renderable {
     // - RENDER SECTIONS
     let actionContainer: HTMLDivElement;
     let ul: HTMLUListElement;
+    let counter = 0;
+
     // -- Render undefined section first
     if (sections.has(undefined)) {
       actionContainer = document.createElement('div');
       actionContainer.classList.add('action-container');
       ul = document.createElement('ul');
       sections.get(undefined)!
-        .forEach((action) => ul.appendChild(this.#constructAction(action)));
+        .forEach((action) => ul.appendChild(
+          this.#constructAction(action, this.#masterParent.selectedAction === counter++),
+        ));
       actionContainer.appendChild(ul);
       this.shadowRoot!.appendChild(actionContainer);
     }
@@ -59,13 +63,15 @@ export class MasterActions extends HTMLElement implements Renderable {
 
       ul = document.createElement('ul');
       // eslint-disable-next-line @typescript-eslint/no-loop-func
-      actions.forEach((action) => ul.appendChild(this.#constructAction(action)));
+      actions.forEach((action) => ul.appendChild(
+        this.#constructAction(action, this.#masterParent.selectedAction === counter++),
+      ));
       actionContainer.appendChild(ul);
       this.shadowRoot!.appendChild(actionContainer);
     }
   }
 
-  #constructAction(action: IMasterAction): HTMLElement {
+  #constructAction(action: IMasterAction, selected = false): HTMLElement {
     // TODO: FIX HOT KEYS
 
     const li = document.createElement('li');
@@ -85,6 +91,10 @@ export class MasterActions extends HTMLElement implements Renderable {
       </div>
     `;
 
+    if (selected) {
+      li.classList.add('selected');
+    }
+
     const handler = (e: Event) => {
       e.preventDefault();
       this.#masterParent.selectAction(action);
@@ -100,8 +110,6 @@ export class MasterActions extends HTMLElement implements Renderable {
 
   async disconnectedCallback() {
     // Remove all event listeners
-    // this.#keyEvents.forEach(({ key, event }) => unlistenHotKey(key, event, this.#masterParent));
-
     this.actions.forEach((action) => {
       if (action.hotkey && action.handler) {
         unlistenHotKey(action.hotkey, (e: Event) => {
