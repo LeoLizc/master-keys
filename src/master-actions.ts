@@ -108,7 +108,7 @@ export class MasterActions extends HTMLElement implements Renderable {
     li.addEventListener('mouseover', () => {
       if (selected) return;
 
-      console.log('Setting selected action to:', this.actions.indexOf(action));
+      // console.log('Setting selected action to:', this.actions.indexOf(action));
       this.#masterParent.selectedAction = this.actions.indexOf(action) || 0;
     });
 

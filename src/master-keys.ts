@@ -207,7 +207,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
   #listenKeys() {
     this.addEventListener('keydown', (ev) => {
       const key = ev.code;
-      console.log('key Pressed:', key);
+      // console.log('key Pressed:', key);
       const numActions = this.actions.length;
 
       if (key === 'ArrowDown') {
