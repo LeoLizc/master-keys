@@ -227,6 +227,10 @@ export const masterActionsStyle = createCSS(`
 div.action-icon {
   padding-inline-end: 1rem;
   flex-shrink: 0;
+  box-sizing: content-box;
+  width: var(--master-icon-size, 1.3rem);
+  max-width: var(--master-icon-size, 1.3rem);
+  max-height: var(--master-icon-size, 1.3rem);
 }
 
 img.action-icon {
