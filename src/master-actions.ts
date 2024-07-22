@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import { IMasterAction } from './interfaces/imaster-action';
 import { MasterKeys } from './master-keys';
+import { masterActionsStyle } from './styles/default-styles.js';
 import { Renderable } from './util.d';
 import { listenHotKey, unlistenHotKey } from './utils.js';
 
@@ -14,6 +15,7 @@ export class MasterActions extends HTMLElement implements Renderable {
     super();
     this.attachShadow({ mode: 'open' });
     this.#masterParent = parent;
+    this.shadowRoot!.adoptedStyleSheets = [masterActionsStyle];
   }
 
   connectedCallback() {
@@ -29,9 +31,7 @@ export class MasterActions extends HTMLElement implements Renderable {
       new Map(),
     );
 
-    this.shadowRoot!.innerHTML = `
-    <link rel="stylesheet" href="https://leolizc.github.io/master-keys/masterActions.css">
-    `;
+    this.shadowRoot!.innerHTML = '';
 
     // - RENDER SECTIONS
     let actionContainer: HTMLDivElement;

@@ -1,6 +1,7 @@
 import { observe } from './utils.js';
 import { Renderable } from './util.js';
 import { MasterKeys } from './master-keys.js';
+import { masterHeaderStyle } from './styles/default-styles.js';
 
 export class MasterKeyHeader extends HTMLElement implements Renderable {
   #rendered = false;
@@ -23,6 +24,7 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
     super();
     this.#masterParent = masterParent;
     this.attachShadow({ mode: 'open' });
+    this.shadowRoot!.adoptedStyleSheets = [masterHeaderStyle];
     this.placeholder = placeholder;
   }
 
@@ -36,9 +38,7 @@ export class MasterKeyHeader extends HTMLElement implements Renderable {
 
     // TODO: make the render method more efficient by node manipulation
 
-    this.shadowRoot!.innerHTML = `
-    <link rel="stylesheet" href="https://leolizc.github.io/master-keys/masterHeader.css">
-    `;
+    this.shadowRoot!.innerHTML = '';
 
     const header = document.createElement('header');
     this.shadowRoot!.appendChild(header);

@@ -4,6 +4,7 @@ import { MasterFooter } from './master-footer.js';
 import { type Renderable } from './util.js';
 import { observe, listenHotKey } from './utils.js';
 import { IMasterAction, INestedMasterAction } from './interfaces/imaster-action.js';
+import { masterKeyStyle } from './styles/default-styles.js';
 
 export class MasterKeys extends HTMLElement implements Renderable {
   header: MasterKeyHeader;
@@ -299,7 +300,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
     );
     this.mksActions = new MasterActions(this);
     this.footer = new MasterFooter();
-
+    this.shadowRoot!.adoptedStyleSheets = [masterKeyStyle];
     this.#listenKeys();
   }
 
@@ -329,7 +330,6 @@ export class MasterKeys extends HTMLElement implements Renderable {
     this.shadowRoot!.innerHTML = `
       <div class="modal">
       </div>
-      <link rel="stylesheet" href="https://leolizc.github.io/master-keys/masterKey.css">
     `;
 
     // - UPDATE THE CHILDREN

@@ -1,3 +1,4 @@
+import { masterFooterStyle } from './styles/default-styles.js';
 import { Renderable } from './util';
 
 export class MasterFooter extends HTMLElement implements Renderable {
@@ -6,6 +7,7 @@ export class MasterFooter extends HTMLElement implements Renderable {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+    this.shadowRoot!.adoptedStyleSheets = [masterFooterStyle];
   }
 
   connectedCallback() {
@@ -17,7 +19,6 @@ export class MasterFooter extends HTMLElement implements Renderable {
     if (!this.#rendered) return;
 
     this.shadowRoot!.innerHTML = `
-  <link rel="stylesheet" href="https://leolizc.github.io/master-keys/masterFooter.css">
   <footer>
     <div class="footer-help">
       <kbd>
