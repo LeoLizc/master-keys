@@ -211,7 +211,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
       const numActions = this.actions.length;
 
       if (key === 'ArrowDown') {
-        this.selectedAction = (numActions + ((this.selectedAction - 1) % numActions)) % numActions;
+        this.selectedAction = (numActions + ((this.selectedAction + 1) % numActions)) % numActions;
       }
 
       if (key === 'ArrowUp') {
