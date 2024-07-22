@@ -195,7 +195,7 @@ export const masterActionsStyle = createCSS(`
   cursor: pointer;
 }
 
-:host li:hover {
+:host li:hover,:host li.selected {
   background-color: var(--master-selected-background, rgb(236 238 244));
 }
 
