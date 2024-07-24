@@ -2,7 +2,7 @@ import { MasterKeyHeader } from './master-header.js';
 import { MasterActions } from './master-actions.js';
 import { MasterFooter } from './master-footer.js';
 import { type Renderable } from './util.js';
-import { observe, listenHotKey } from './utils.js';
+import { observe, listenHotKey, unlistenHotKey } from './utils.js';
 import { IMasterAction, INestedMasterAction } from './interfaces/imaster-action.js';
 import { masterKeyStyle } from './styles/default-styles.js';
 
@@ -204,30 +204,6 @@ export class MasterKeys extends HTMLElement implements Renderable {
   @observe()
   accessor selectedAction: number = 0;
 
-  #listenKeys() {
-    this.addEventListener('keydown', (ev) => {
-      const key = ev.code;
-      // console.log('key Pressed:', key);
-      const numActions = this.actions.length;
-
-      if (key === 'ArrowDown') {
-        this.selectedAction = (numActions + ((this.selectedAction + 1) % numActions)) % numActions;
-      }
-
-      if (key === 'ArrowUp') {
-        this.selectedAction = (numActions + ((this.selectedAction - 1) % numActions)) % numActions;
-      }
-
-      if (key === 'Enter') {
-        this.parent = this.actions[this.selectedAction]?.id ?? undefined;
-      }
-
-      if (key === 'Backspace') {
-        if (this.parent) this.parent = this.nestedData.get(this.parent)?.parent ?? undefined;
-      }
-    });
-  }
-
   get breadcrumbs() {
     const breadcrumbs = [];
 
@@ -257,6 +233,34 @@ export class MasterKeys extends HTMLElement implements Renderable {
     },
   )
   accessor closeHotkey = 'escape';
+
+  @observe(
+    function t(this: MasterKeys) {
+      this.onHotKeyChanged();
+    },
+  )
+  accessor navigationUpHotkey = 'arrowup';
+
+  @observe(
+    function t(this: MasterKeys) {
+      this.onHotKeyChanged();
+    },
+  )
+  accessor navigationDownHotkey = 'arrowdown';
+
+  @observe(
+    function t(this: MasterKeys) {
+      this.onHotKeyChanged();
+    },
+  )
+  accessor goBackHotkey = 'backspace';
+
+  @observe(
+    function t(this: MasterKeys) {
+      this.onHotKeyChanged();
+    },
+  )
+  accessor selectHotkey = 'enter';
 
   static #heareableAttr: Record<string, keyof MasterKeys | 'no-render'> = {
     placeholder: 'header',
@@ -301,15 +305,6 @@ export class MasterKeys extends HTMLElement implements Renderable {
     this.mksActions = new MasterActions(this);
     this.footer = new MasterFooter();
     this.shadowRoot!.adoptedStyleSheets = [masterKeyStyle];
-    this.#listenKeys();
-  }
-
-  connectedCallback() {
-    this.render();
-    this.hidden = true;
-
-    this.loadHotKeys();
-    this.tabIndex = -1;
   }
 
   attributeChangedCallback(name:string, oldVal:string, newVal:string) {
@@ -372,6 +367,74 @@ export class MasterKeys extends HTMLElement implements Renderable {
         if (!this.hidden) this.close();
       }, this);
     }
+
+    if (this.navigationUpHotkey) {
+      listenHotKey(this.navigationUpHotkey, (_e) => {
+        this.selectedAction = (
+          this.actions.length
+          + ((this.selectedAction - 1) % this.actions.length)
+        ) % this.actions.length;
+      }, this);
+    }
+
+    if (this.navigationDownHotkey) {
+      listenHotKey(this.navigationDownHotkey, (_e) => {
+        this.selectedAction = (
+          this.actions.length
+          + ((this.selectedAction + 1) % this.actions.length)
+        ) % this.actions.length;
+      }, this);
+    }
+
+    if (this.goBackHotkey) {
+      listenHotKey(this.goBackHotkey, (_e) => {
+        if (this.parent) this.parent = this.nestedData.get(this.parent)?.parent ?? undefined;
+      }, this);
+    }
+
+    if (this.selectHotkey) {
+      listenHotKey(this.selectHotkey, (_e) => {
+        this.parent = this.actions[this.selectedAction]?.id ?? undefined;
+      }, this);
+    }
+  }
+
+  private unlistenHotKeys() {
+    if (this.openHotKey) {
+      unlistenHotKey(this.openHotKey);
+    }
+
+    if (this.closeHotkey) {
+      unlistenHotKey(this.closeHotkey, undefined, this);
+    }
+
+    if (this.navigationUpHotkey) {
+      unlistenHotKey(this.navigationUpHotkey, undefined, this);
+    }
+
+    if (this.navigationDownHotkey) {
+      unlistenHotKey(this.navigationDownHotkey, undefined, this);
+    }
+
+    if (this.goBackHotkey) {
+      unlistenHotKey(this.goBackHotkey, undefined, this);
+    }
+
+    if (this.selectHotkey) {
+      unlistenHotKey(this.selectHotkey, undefined, this);
+    }
+  }
+
+  connectedCallback() {
+    this.render();
+    this.hidden = true;
+
+    this.loadHotKeys();
+    this.tabIndex = -1;
+  }
+
+  disconnectedCallback() {
+    this.unlistenHotKeys();
   }
 
   onHotKeyChanged() {

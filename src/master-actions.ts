@@ -10,6 +10,7 @@ export class MasterActions extends HTMLElement implements Renderable {
   #masterParent: MasterKeys;
   #keyEvents: { key:string, event: EventListener }[] = [];
   actions: IMasterAction[] = [];
+  lastSelected = -1;
 
   constructor(parent: MasterKeys) {
     super();
@@ -108,8 +109,12 @@ export class MasterActions extends HTMLElement implements Renderable {
     li.addEventListener('mouseover', () => {
       if (selected) return;
 
-      // console.log('Setting selected action to:', this.actions.indexOf(action));
-      this.#masterParent.selectedAction = this.actions.indexOf(action) || 0;
+      const sel = this.actions.indexOf(action) || 0;
+
+      if (this.lastSelected === sel) return;
+
+      this.#masterParent.selectedAction = sel;
+      this.lastSelected = this.#masterParent.selectedAction;
     });
 
     return li;
