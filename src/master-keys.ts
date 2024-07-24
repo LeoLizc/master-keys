@@ -394,9 +394,15 @@ export class MasterKeys extends HTMLElement implements Renderable {
 
     if (this.selectHotkey) {
       listenHotKey(this.selectHotkey, (_e) => {
-        this.parent = this.actions[this.selectedAction]?.id ?? undefined;
+        const action = this.actions[this.selectedAction];
+
+        if (action) {
+          this.selectAction(action);
+        }
       }, this);
     }
+
+    // this.addEventListener('scr')
   }
 
   private unlistenHotKeys() {
