@@ -11,12 +11,19 @@ export class MasterActions extends HTMLElement implements Renderable {
   #keyEvents: { key:string, event: EventListener }[] = [];
   actions: IMasterAction[] = [];
   lastSelected = -1;
+  myScroll = 0;
 
   constructor(parent: MasterKeys) {
     super();
     this.attachShadow({ mode: 'open' });
     this.#masterParent = parent;
     this.shadowRoot!.adoptedStyleSheets = [masterActionsStyle];
+
+    this.addEventListener('scroll', (ev) => {
+      const scroll = (ev.target as HTMLElement)?.scrollTop;
+
+      this.myScroll = scroll;
+    });
   }
 
   connectedCallback() {

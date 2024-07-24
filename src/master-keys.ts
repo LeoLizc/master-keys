@@ -353,6 +353,9 @@ export class MasterKeys extends HTMLElement implements Renderable {
     this.shadowRoot!.children[0]!.appendChild(slot);
 
     this.header.focusInput();
+
+    //! THIS NEEDS TO BE REFRACTORED
+    this.mksActions.scrollTop = this.mksActions.myScroll;
   }
 
   private loadHotKeys() {
