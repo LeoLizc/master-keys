@@ -401,8 +401,6 @@ export class MasterKeys extends HTMLElement implements Renderable {
         }
       }, this);
     }
-
-    // this.addEventListener('scr')
   }
 
   private unlistenHotKeys() {
