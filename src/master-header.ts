@@ -1,8 +1,9 @@
-import { observe } from './utils.js';
+import { customElement, observe } from './utils.js';
 import { Renderable } from './util.js';
 import { MasterKeys } from './master-keys.js';
 import { masterHeaderStyle } from './styles/default-styles.js';
 
+@customElement('mks-header')
 export class MasterKeyHeader extends HTMLElement implements Renderable {
   #rendered = false;
   #masterParent: MasterKeys;
@@ -112,7 +113,6 @@ ${
   }
 }
 
-window.customElements.define('mks-header', MasterKeyHeader);
 declare global {
   interface HTMLElementTagNameMap {
     'mks-header': MasterKeyHeader;

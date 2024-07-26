@@ -1,6 +1,8 @@
 import { masterFooterStyle } from './styles/default-styles.js';
 import { Renderable } from './util';
+import { customElement } from './utils.js';
 
+@customElement('master-footer')
 export class MasterFooter extends HTMLElement implements Renderable {
   #rendered = false;
 
@@ -52,7 +54,6 @@ export class MasterFooter extends HTMLElement implements Renderable {
   }
 }
 
-window.customElements.define('master-footer', MasterFooter);
 declare global {
   interface HTMLElementTagNameMap {
     'master-footer': MasterFooter;

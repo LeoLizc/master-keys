@@ -154,3 +154,14 @@ export function unlistenHotKey(
   const func = funcs.pop();
   target.removeEventListener('keydown', func?.listener as EventListener);
 }
+
+export function customElement(name: string) {
+  return function customElementDecorator<T extends CustomElementConstructor>(
+    target: T,
+    { addInitializer }: DecoratorContext,
+  ): T | void {
+    addInitializer(() => {
+      customElements.define(name, target);
+    });
+  };
+}

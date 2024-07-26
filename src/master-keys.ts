@@ -2,10 +2,13 @@ import { MasterKeyHeader } from './master-header.js';
 import { MasterActions } from './master-actions.js';
 import { MasterFooter } from './master-footer.js';
 import { type Renderable } from './util.js';
-import { observe, listenHotKey, unlistenHotKey } from './utils.js';
+import {
+  observe, listenHotKey, unlistenHotKey, customElement,
+} from './utils.js';
 import { IMasterAction, INestedMasterAction } from './interfaces/imaster-action.js';
 import { masterKeyStyle } from './styles/default-styles.js';
 
+@customElement('master-keys')
 export class MasterKeys extends HTMLElement implements Renderable {
   header: MasterKeyHeader;
   mksActions: MasterActions;
@@ -451,7 +454,6 @@ export class MasterKeys extends HTMLElement implements Renderable {
   }
 }
 
-customElements.define('master-keys', MasterKeys);
 declare global {
   interface HTMLElementTagNameMap {
     'master-keys': MasterKeys;

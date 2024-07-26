@@ -3,8 +3,9 @@ import { IMasterAction } from './interfaces/imaster-action';
 import { MasterKeys } from './master-keys';
 import { masterActionsStyle } from './styles/default-styles.js';
 import { Renderable } from './util.d';
-import { listenHotKey, unlistenHotKey } from './utils.js';
+import { customElement, listenHotKey, unlistenHotKey } from './utils.js';
 
+@customElement('mks-actions')
 export class MasterActions extends HTMLElement implements Renderable {
   #rendered = false;
   #masterParent: MasterKeys;
@@ -140,7 +141,6 @@ export class MasterActions extends HTMLElement implements Renderable {
   }
 }
 
-window.customElements.define('mks-actions', MasterActions);
 declare global {
   interface HTMLElementTagNameMap {
     'mks-actions': MasterActions;
