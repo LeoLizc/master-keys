@@ -28,19 +28,19 @@ export function observe(
     target : ClassAccessorDecoratorTarget<T, A>,
     context: DecoratorContext,
   ): ClassAccessorDecoratorResult<T, A> | void {
-    const { kind } = context;
+    const { kind, name } = context;
     if (kind !== 'accessor') {
       return;
     }
 
-    const { set } = target;
-
+    const { set, get } = target;
     return {
       ...target,
       set(value: A) {
+        const oldValue = get.call(this);
         set.call(this, value);
         if (callback) {
-          callback.call(this);
+          callback.call(this, name, oldValue, value);
         } else {
           this.render();
         }
@@ -163,5 +163,26 @@ export function customElement(name: string) {
     addInitializer(() => {
       customElements.define(name, target);
     });
+  };
+}
+
+export function htmlAttribute<T extends HTMLElement, B>(
+  _target: undefined,
+  context: ClassFieldDecoratorContext<T, B>,
+): void | ((initialValue: B) => B) {
+  const { name } = context;
+  console.log(name);
+  console.log(context);
+  return function htmlAttributeDecorator(this: T, initialValue: B): B {
+    const element = this;
+    const value = element.getAttribute(name as string) as B;
+    if (value === null) {
+      element.setAttribute(name as string, initialValue as string);
+      return initialValue;
+    }
+
+    console.log(name, value);
+
+    return value;
   };
 }
