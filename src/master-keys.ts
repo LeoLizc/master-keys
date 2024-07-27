@@ -224,50 +224,56 @@ export class MasterKeys extends HTMLElement implements Renderable {
   }
 
   @observe(
-    function t(this: MasterKeys) {
-      this.onHotKeyChanged();
+    function t(this: MasterKeys, name: string, oldValue: string) {
+      this.onHotKeyChanged(name, oldValue);
     },
   )
-  accessor openHotKey = 'ctrl+k';
+  accessor openhotkey = 'ctrl+k';
 
   @observe(
-    function t(this: MasterKeys) {
-      this.onHotKeyChanged();
+    function t(this: MasterKeys, name: string, oldValue: string) {
+      this.onHotKeyChanged(name, oldValue);
     },
   )
-  accessor closeHotkey = 'escape';
+  accessor closehotkey = 'escape';
 
   @observe(
-    function t(this: MasterKeys) {
-      this.onHotKeyChanged();
+    function t(this: MasterKeys, name: string, oldValue: string) {
+      this.onHotKeyChanged(name, oldValue);
     },
   )
-  accessor navigationUpHotkey = 'arrowup';
+  accessor navigationuphotkey = 'arrowup';
 
   @observe(
-    function t(this: MasterKeys) {
-      this.onHotKeyChanged();
+    function t(this: MasterKeys, name: string, oldValue: string) {
+      this.onHotKeyChanged(name, oldValue);
     },
   )
-  accessor navigationDownHotkey = 'arrowdown';
+  accessor navigationdownhotkey = 'arrowdown';
 
   @observe(
-    function t(this: MasterKeys) {
-      this.onHotKeyChanged();
+    function t(this: MasterKeys, name: string, oldValue: string) {
+      this.onHotKeyChanged(name, oldValue);
     },
   )
-  accessor goBackHotkey = 'backspace';
+  accessor gobackhotkey = 'backspace';
 
   @observe(
-    function t(this: MasterKeys) {
-      this.onHotKeyChanged();
+    function t(this: MasterKeys, name: string, oldValue: string) {
+      this.onHotKeyChanged(name, oldValue);
     },
   )
-  accessor selectHotkey = 'enter';
+  accessor selecthotkey = 'enter';
 
   static #heareableAttr: Record<string, keyof MasterKeys | 'no-render'> = {
     placeholder: 'header',
     'hide-breadcrumbs': 'header',
+    openhotkey: 'no-render',
+    closehotkey: 'no-render',
+    navigationuphotkey: 'no-render',
+    navigationdownhotkey: 'no-render',
+    gobackhotkey: 'no-render',
+    selecthotkey: 'no-render',
   };
 
   open() {
@@ -313,7 +319,12 @@ export class MasterKeys extends HTMLElement implements Renderable {
   attributeChangedCallback(name:string, oldVal:string, newVal:string) {
     if (oldVal !== newVal) {
       const targetKey = MasterKeys.#heareableAttr[name];
-      if (targetKey === 'no-render') return;
+      if (targetKey === 'no-render') {
+        if (this.hasAttribute(name)) {
+          this[name as keyof typeof this] = newVal as any;
+        }
+        return;
+      }
 
       const target = this[targetKey];
       if (target instanceof HTMLElement) {
@@ -362,20 +373,20 @@ export class MasterKeys extends HTMLElement implements Renderable {
   }
 
   private loadHotKeys() {
-    if (this.openHotKey) {
-      listenHotKey(this.openHotKey, (_e) => {
+    if (this.openhotkey) {
+      listenHotKey(this.openhotkey, (_e) => {
         if (this.hidden) this.open(); else this.close();
       });
     }
 
-    if (this.closeHotkey) {
-      listenHotKey(this.closeHotkey, (_e) => {
+    if (this.closehotkey) {
+      listenHotKey(this.closehotkey, (_e) => {
         if (!this.hidden) this.close();
       }, this);
     }
 
-    if (this.navigationUpHotkey) {
-      listenHotKey(this.navigationUpHotkey, (_e) => {
+    if (this.navigationuphotkey) {
+      listenHotKey(this.navigationuphotkey, (_e) => {
         this.selectedAction = (
           this.actions.length
           + ((this.selectedAction - 1) % this.actions.length)
@@ -383,8 +394,8 @@ export class MasterKeys extends HTMLElement implements Renderable {
       }, this);
     }
 
-    if (this.navigationDownHotkey) {
-      listenHotKey(this.navigationDownHotkey, (_e) => {
+    if (this.navigationdownhotkey) {
+      listenHotKey(this.navigationdownhotkey, (_e) => {
         this.selectedAction = (
           this.actions.length
           + ((this.selectedAction + 1) % this.actions.length)
@@ -392,14 +403,14 @@ export class MasterKeys extends HTMLElement implements Renderable {
       }, this);
     }
 
-    if (this.goBackHotkey) {
-      listenHotKey(this.goBackHotkey, (_e) => {
+    if (this.gobackhotkey) {
+      listenHotKey(this.gobackhotkey, (_e) => {
         if (this.parent) this.parent = this.nestedData.get(this.parent)?.parent ?? undefined;
       }, this);
     }
 
-    if (this.selectHotkey) {
-      listenHotKey(this.selectHotkey, (_e) => {
+    if (this.selecthotkey) {
+      listenHotKey(this.selecthotkey, (_e) => {
         const action = this.actions[this.selectedAction];
 
         if (action) {
@@ -410,28 +421,28 @@ export class MasterKeys extends HTMLElement implements Renderable {
   }
 
   private unlistenHotKeys() {
-    if (this.openHotKey) {
-      unlistenHotKey(this.openHotKey);
+    if (this.openhotkey) {
+      unlistenHotKey(this.openhotkey);
     }
 
-    if (this.closeHotkey) {
-      unlistenHotKey(this.closeHotkey, undefined, this);
+    if (this.closehotkey) {
+      unlistenHotKey(this.closehotkey, undefined, this);
     }
 
-    if (this.navigationUpHotkey) {
-      unlistenHotKey(this.navigationUpHotkey, undefined, this);
+    if (this.navigationuphotkey) {
+      unlistenHotKey(this.navigationuphotkey, undefined, this);
     }
 
-    if (this.navigationDownHotkey) {
-      unlistenHotKey(this.navigationDownHotkey, undefined, this);
+    if (this.navigationdownhotkey) {
+      unlistenHotKey(this.navigationdownhotkey, undefined, this);
     }
 
-    if (this.goBackHotkey) {
-      unlistenHotKey(this.goBackHotkey, undefined, this);
+    if (this.gobackhotkey) {
+      unlistenHotKey(this.gobackhotkey, undefined, this);
     }
 
-    if (this.selectHotkey) {
-      unlistenHotKey(this.selectHotkey, undefined, this);
+    if (this.selecthotkey) {
+      unlistenHotKey(this.selecthotkey, undefined, this);
     }
   }
 
@@ -447,8 +458,12 @@ export class MasterKeys extends HTMLElement implements Renderable {
     this.unlistenHotKeys();
   }
 
-  onHotKeyChanged() {
-    // TODO: remove old hotkeys
+  onHotKeyChanged(name: string, oldVal: string) {
+    if (name === 'openhotkey') {
+      unlistenHotKey(oldVal);
+    } else {
+      unlistenHotKey(oldVal, undefined, this);
+    }
 
     this.loadHotKeys();
   }
