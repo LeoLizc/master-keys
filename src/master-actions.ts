@@ -17,7 +17,7 @@ export class MasterActions extends HTMLElement implements Renderable {
   myScroll = 0;
 
   @observe()
-  accessor hotkeysjoinedview = false;
+  accessor hotkeysjoinedview = null;
 
   constructor(parent: MasterKeys) {
     super();
@@ -97,8 +97,8 @@ export class MasterActions extends HTMLElement implements Renderable {
       hotkeys = hotkeyList.map((keys) => {
         let result = '<kbd class="hotkey">';
 
-        if (this.hotkeysjoinedview) {
-          result = `<kbd class="hotkey">${keys}<kbd>`;
+        if (this.hotkeysjoinedview != null) {
+          result += `<kbd class="hotkey">${keys}</kbd>`;
         } else {
           keys.split('+').map((key) => key.trim()).forEach((key) => {
             result += `<kbd class="hotkey">${key}</kbd>`;
