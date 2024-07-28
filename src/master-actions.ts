@@ -3,7 +3,9 @@ import { IMasterAction } from './interfaces/imaster-action';
 import { MasterKeys } from './master-keys';
 import { masterActionsStyle } from './styles/default-styles.js';
 import { Renderable } from './util.d';
-import { customElement, listenHotKey, unlistenHotKey } from './utils.js';
+import {
+  customElement, listenHotKey, observe, unlistenHotKey,
+} from './utils.js';
 
 @customElement('mks-actions')
 export class MasterActions extends HTMLElement implements Renderable {
@@ -13,6 +15,9 @@ export class MasterActions extends HTMLElement implements Renderable {
   actions: IMasterAction[] = [];
   lastSelected = -1;
   myScroll = 0;
+
+  @observe()
+  accessor hotkeysjoinedview = false;
 
   constructor(parent: MasterKeys) {
     super();
@@ -84,6 +89,27 @@ export class MasterActions extends HTMLElement implements Renderable {
     // TODO: FIX HOT KEYS
 
     const li = document.createElement('li');
+    // hotkeysjoinedview
+
+    let hotkeys = '';
+    if (action.hotkey) {
+      const hotkeyList = action.hotkey.split(',').map((key) => key.trim());
+      hotkeys = hotkeyList.map((keys) => {
+        let result = '<kbd class="hotkey">';
+
+        if (this.hotkeysjoinedview) {
+          result = `<kbd class="hotkey">${keys}<kbd>`;
+        } else {
+          keys.split('+').map((key) => key.trim()).forEach((key) => {
+            result += `<kbd class="hotkey">${key}</kbd>`;
+          });
+        }
+
+        result += '</kbd>';
+        return result;
+      }).join('\n');
+    }
+
     li.innerHTML = `
       <div class="action-icon">
         ${action.icon ?? ''}
@@ -92,11 +118,7 @@ export class MasterActions extends HTMLElement implements Renderable {
         ${action.title}
       </div>
       <div class="action-hotkey">
-        ${
-  action.hotkey
-    ? action.hotkey.split('+').map((key) => `<kbd>${key}</kbd>`).join('')
-    : ''
-}
+        ${hotkeys}
       </div>
     `;
 

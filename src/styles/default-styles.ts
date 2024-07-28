@@ -238,7 +238,7 @@ img.action-icon {
   max-height: var(--master-icon-size, 1.3rem);
 }
 
-kbd {
+.hotkey kbd {
   background-color: var(--master-key-background-color, #f7f7f7);
   border: 1px solid #ccc;
   border-radius: var(--master-key-border-radius, 3px);
