@@ -74,7 +74,9 @@ export function validateHotKey(hotKey: string): boolean {
     return true;
   }
 
-  return hotKeyRegex.test(hotKey.toLocaleLowerCase());
+  const hotkeys = hotKey.split(',').map((key) => key.trim());
+
+  return hotkeys.every((key) => hotKeyRegex.test(key.toLocaleLowerCase()));
 }
 
 // eslint-disable-next-line no-spaced-func
@@ -96,39 +98,43 @@ export function listenHotKey(
     throw new Error(`Invalid hotkey: ${hotKey}`);
   }
 
-  const keys = hotKey.split('+').reduce(
-    (acc, key) => {
-      if (modifierKeys.includes(key)) {
-        acc[key as 'ctrl' | 'shift' | 'alt'] = true;
-      } else {
-        acc.key = key.toLowerCase();
-      }
-      return acc;
-    },
-    {
-      key: '', ctrl: false, shift: false, alt: false,
-    },
-  );
+  const hotkeys = hotKey.split(',').map((key) => key.trim());
 
-  const func = (event: Event) => {
-    if (!(event instanceof KeyboardEvent)) return;
-    if (event.repeat) return;
+  hotkeys.forEach((actHotKey) => {
+    const keys = actHotKey.split('+').reduce(
+      (acc, key) => {
+        if (modifierKeys.includes(key)) {
+          acc[key as 'ctrl' | 'shift' | 'alt'] = true;
+        } else {
+          acc.key = key.toLowerCase();
+        }
+        return acc;
+      },
+      {
+        key: '', ctrl: false, shift: false, alt: false,
+      },
+    );
 
-    if (event.key.toLowerCase() === keys.key
+    const func = (event: Event) => {
+      if (!(event instanceof KeyboardEvent)) return;
+      if (event.repeat) return;
+
+      if (event.key.toLowerCase() === keys.key
       && event.ctrlKey === keys.ctrl
       && event.shiftKey === keys.shift
       && event.altKey === keys.alt) {
-      callback(event);
+        callback(event);
+      }
+    };
+
+    if (hotKeyRegistry.has(actHotKey)) {
+      hotKeyRegistry.get(actHotKey)?.push({ callback, listener: func });
+    } else {
+      hotKeyRegistry.set(actHotKey, [{ callback, listener: func }]);
     }
-  };
 
-  if (hotKeyRegistry.has(hotKey)) {
-    hotKeyRegistry.get(hotKey)?.push({ callback, listener: func });
-  } else {
-    hotKeyRegistry.set(hotKey, [{ callback, listener: func }]);
-  }
-
-  target.addEventListener('keydown', func);
+    target.addEventListener('keydown', func);
+  });
 }
 
 export function unlistenHotKey(
@@ -140,19 +146,23 @@ export function unlistenHotKey(
     throw new Error(`Invalid hotkey: ${hotKey}`);
   }
 
-  if (!hotKeyRegistry.has(hotKey)) return;
+  const hotkeys = hotKey.split(',').map((key) => key.trim());
 
-  const funcs = hotKeyRegistry.get(hotKey)!;
-  if (callback != null) {
-    const index = funcs.findIndex(({ callback: func }) => func === callback);
-    if (index !== -1) {
-      target.removeEventListener('keydown', funcs[index].listener as EventListener);
-      funcs.splice(index, 1);
-      return;
+  hotkeys.forEach((actHotKey) => {
+    if (!hotKeyRegistry.has(actHotKey)) return;
+
+    const funcs = hotKeyRegistry.get(actHotKey)!;
+    if (callback != null) {
+      const index = funcs.findIndex(({ callback: func }) => func === callback);
+      if (index !== -1) {
+        target.removeEventListener('keydown', funcs[index].listener as EventListener);
+        funcs.splice(index, 1);
+        return;
+      }
     }
-  }
-  const func = funcs.pop();
-  target.removeEventListener('keydown', func?.listener as EventListener);
+    const func = funcs.pop();
+    target.removeEventListener('keydown', func?.listener as EventListener);
+  });
 }
 
 export function customElement(name: string) {
