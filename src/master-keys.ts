@@ -242,14 +242,14 @@ export class MasterKeys extends HTMLElement implements Renderable {
       this.onHotKeyChanged(name, oldValue);
     },
   )
-  accessor navigationuphotkey = 'arrowup';
+  accessor navigationuphotkey = 'arrowup,shift+tab';
 
   @observe(
     function t(this: MasterKeys, name: string, oldValue: string) {
       this.onHotKeyChanged(name, oldValue);
     },
   )
-  accessor navigationdownhotkey = 'arrowdown';
+  accessor navigationdownhotkey = 'arrowdown,tab';
 
   @observe(
     function t(this: MasterKeys, name: string, oldValue: string) {
@@ -375,18 +375,24 @@ export class MasterKeys extends HTMLElement implements Renderable {
   private loadHotKeys() {
     if (this.openhotkey) {
       listenHotKey(this.openhotkey, (_e) => {
+        _e.preventDefault();
         if (this.hidden) this.open(); else this.close();
       });
     }
 
     if (this.closehotkey) {
       listenHotKey(this.closehotkey, (_e) => {
-        if (!this.hidden) this.close();
+        if (!this.hidden) {
+          _e.preventDefault();
+          this.close();
+        }
       }, this);
     }
 
     if (this.navigationuphotkey) {
       listenHotKey(this.navigationuphotkey, (_e) => {
+        _e.preventDefault();
+
         this.selectedAction = (
           this.actions.length
           + ((this.selectedAction - 1) % this.actions.length)
@@ -396,6 +402,8 @@ export class MasterKeys extends HTMLElement implements Renderable {
 
     if (this.navigationdownhotkey) {
       listenHotKey(this.navigationdownhotkey, (_e) => {
+        _e.preventDefault();
+
         this.selectedAction = (
           this.actions.length
           + ((this.selectedAction + 1) % this.actions.length)
@@ -404,8 +412,13 @@ export class MasterKeys extends HTMLElement implements Renderable {
     }
 
     if (this.gobackhotkey) {
-      listenHotKey(this.gobackhotkey, (_e) => {
-        if (this.parent) this.parent = this.nestedData.get(this.parent)?.parent ?? undefined;
+      listenHotKey(this.gobackhotkey, (e) => {
+        if (this.search) return;
+
+        if (this.parent) {
+          e.preventDefault();
+          this.parent = this.nestedData.get(this.parent)?.parent ?? undefined;
+        }
       }, this);
     }
 
@@ -414,6 +427,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
         const action = this.actions[this.selectedAction];
 
         if (action) {
+          _e.preventDefault();
           this.selectAction(action);
         }
       }, this);
