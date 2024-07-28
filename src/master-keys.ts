@@ -268,6 +268,7 @@ export class MasterKeys extends HTMLElement implements Renderable {
   static #heareableAttr: Record<string, keyof MasterKeys | 'no-render'> = {
     placeholder: 'header',
     'hide-breadcrumbs': 'header',
+    hotkeysjoinedview: 'mksActions',
     openhotkey: 'no-render',
     closehotkey: 'no-render',
     navigationuphotkey: 'no-render',
